@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>gistool</title>
+  </head>
+  <body>
+    <h1>Coastal Groundwater Vulnerability Assessment and Mapping (CGWVAM)</h1>
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile">
+    <input type="file" name="myfile">
+    <input type="file" name="myfile">
+    <button type="submit">Calculate</button>
+  </form>
+
+  {% if uploaded_file_url %}
+    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+  {% endif %}
+  </body>
+</html>

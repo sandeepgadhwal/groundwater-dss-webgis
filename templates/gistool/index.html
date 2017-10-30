@@ -1,0 +1,99 @@
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static "style.css" %} "/>
+<div class="well text-center">
+  <h1>Coastal Groundwater Vulnerability Assessment and Mapping (CGWVAM)</h1>
+{# Display a form #}
+<form id="uploadinput" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="input-group">
+    <span class="input-group-addon">Depth to water table (D)</span>
+    <div class="col-xs-4 nopad">
+    <input type="text" name="DW" class="form-control" placeholder="Enter Assigned Wieghtage">
+    </div>
+    <div class="col-xs-8 nopad">
+    <input type="file" name="DF" class="form-control" placeholder="Depth to water table">
+    </div>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Net Recharge (R)</span>
+    <div class="col-xs-4 nopad">
+    <input type="text" name="RW" class="form-control" placeholder="Enter Assigned Wieghtage">
+    </div>
+    <div class="col-xs-8 nopad">
+    <input type="file" name="RF" class="form-control" placeholder="Depth to water table">
+    </div>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Aquifer media (A)</span>
+    <div class="col-xs-4 nopad">
+    <input type="text" name="AW" class="form-control" placeholder="Enter Assigned Wieghtage">
+    </div>
+    <div class="col-xs-8 nopad">
+    <input type="file" name="AF" class="form-control" placeholder="Depth to water table">
+    </div>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Soil media (S)</span>
+    <div class="col-xs-4 nopad">
+    <input type="text" name="SW" class="form-control" placeholder="Enter Assigned Wieghtage">
+    </div>
+    <div class="col-xs-8 nopad">
+    <input type="file" name="SF" class="form-control" placeholder="Depth to water table">
+    </div>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Topography / Slope (T)</span>
+    <div class="col-xs-4 nopad">
+    <input type="text" name="TW" class="form-control" placeholder="Enter Assigned Wieghtage">
+    </div>
+    <div class="col-xs-8 nopad">
+    <input type="file" name="TF" class="form-control" placeholder="Depth to water table">
+    </div>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Impact of vadose zone (I)</span>
+    <div class="col-xs-4 nopad">
+    <input type="text" name="IW" class="form-control" placeholder="Enter Assigned Wieghtage">
+    </div>
+    <div class="col-xs-8 nopad">
+    <input type="file" name="IF" class="form-control" placeholder="Depth to water table">
+    </div>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Hydraulic Conductivity (C)</span>
+    <div class="col-xs-4 nopad">
+    <input type="text" name="CW" class="form-control" placeholder="Enter Assigned Wieghtage">
+    </div>
+    <div class="col-xs-8 nopad">
+    <input type="file" name="CF" class="form-control" placeholder="Depth to water table">
+    </div>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Impact of urban area (U)</span>
+    <div class="col-xs-4 nopad">
+    <input type="text" name="UW" class="form-control" placeholder="Enter Assigned Wieghtage">
+    </div>
+    <div class="col-xs-8 nopad">
+    <input type="file" name="UF" class="form-control" placeholder="Depth to water table">
+    </div>
+  </div>
+</br>
+  {% buttons %}
+    <button type="submit" class="btn btn-primary">
+      {% bootstrap_icon "ok" %} Calculate
+    </button>
+  {% endbuttons %}
+  {% if processed_file_url %}
+    <p><a href="{{ processed_file_url }}">Click to view results on map: {{ processed_file_url }}</a></p>
+  {% endif %}
+</form>
+</div>
