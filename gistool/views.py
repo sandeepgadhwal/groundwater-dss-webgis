@@ -38,14 +38,26 @@ def index(request):
                 print("No file uploaded for "+x+" Will ignore in calculations")
 
         #get it processd by gdal
-        processed = calculate(timenow, DW, DF_name, RW, RF_name, AW, AF_name, SW, SF_name, TW, TF_name, IW, IF_name, CW, CF_name, UW, UF_name)
-
+        response = calculate(timenow, DW, DF_name, RW, RF_name, AW, AF_name, SW, SF_name, TW, TF_name, IW, IF_name, CW, CF_name, UW, UF_name)
+        output = response[0]
+        rendered = response[1]
+        png = response[2]
+        minx = response[3]
+        miny = response[4]
+        maxx = response[5]
+        maxy = response[6]
         #processedfile = 'output'+timenow+'.png'
         #fs = FileSystemStorage()
         #processedfile = fs.save(processedfile, processed)
         #processed_file_url = fs.url(processedfile)
         return render(request, 'gistool/index.html', {
-            'processed_file_url': processed
+            'output_file_url': output,
+            'rendered_file_url': rendered,
+            'png_file_url': png,
+            'minx' : minx,
+            'miny' : miny,
+            'maxx' : maxx,
+            'maxy' : maxy
         })
 
     return render(request, 'gistool/index.html')

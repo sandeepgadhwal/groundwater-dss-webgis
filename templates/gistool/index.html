@@ -3,6 +3,8 @@
 
 {# Load CSS and JavaScript #}
 {% bootstrap_css %}
+<script type="text/javascript" src="{{ STATIC_URL }} /static/js/jquery.js">
+</script>
 {% bootstrap_javascript %}
 
 {# Display django.contrib.messages as Bootstrap alerts #}
@@ -92,8 +94,153 @@
       {% bootstrap_icon "ok" %} Calculate
     </button>
   {% endbuttons %}
-  {% if processed_file_url %}
-    <p><a href="{{ processed_file_url }}">Click to view results on map: {{ processed_file_url }}</a></p>
-  {% endif %}
 </form>
+{% if output_file_url %}
+  <p><a href="{{ output_file_url }}">Click to view results on map: {{ output_file_url }}</a></p>
+{% endif %}
+{% if rendered_file_url %}
+  <p><a href="{{ rendered_file_url }}">Click to view results on map: {{ rendered_file_url }}</a></p>
+{% endif %}
+{% if png_file_url %}
+  <p><a href="{{ png_file_url }}">Click to view results on map: {{ png_file_url }}</a></p>
+  {% buttons %}
+    <button class="btn btn-success" onclick="javasript:initMap('{{ png_file_url }}',{{ minx }},{{ miny }},{{ maxx }},{{ maxy }});">
+      {% bootstrap_icon "map-marker" %} Map
+    </button>
+  {% endbuttons %}
+{% endif %}
 </div>
+</br>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Adding a Custom Overlay</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCve4liJjacyI50x_HJyMPYaxoGL_e7s2U"></script>
+    <script>
+      // This example creates a custom overlay called USGSOverlay, containing
+      // a U.S. Geological Survey (USGS) image of the relevant area on the map.
+
+      // Set the custom overlay object's prototype to a new instance
+      // of OverlayView. In effect, this will subclass the overlay class therefore
+      // it's simpler to load the API synchronously, using
+      // google.maps.event.addDomListener().
+      // Note that we set the prototype to an instance, rather than the
+      // parent class itself, because we do not wish to modify the parent class.
+
+      var overlay;
+      USGSOverlay.prototype = new google.maps.OverlayView();
+
+      // Initialize the map and the custom overlay.
+
+      function initMap(png,minx,miny,maxx,maxy) {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 11,
+          center: {lat: (miny+maxy)/2, lng: (minx+maxx)/2},
+          mapTypeId: 'satellite'
+        });
+
+        var bounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(miny, minx),
+            new google.maps.LatLng(maxy, maxx));
+
+        // The photograph is courtesy of the U.S. Geological Survey.
+        var srcImage = window.location.origin+png;//png;
+        console.log(srcImage);
+        // The custom USGSOverlay object contains the USGS image,
+        // the bounds of the image, and a reference to the map.
+        overlay = new USGSOverlay(bounds, srcImage, map);
+      }
+
+      /** @constructor */
+      function USGSOverlay(bounds, image, map) {
+
+        // Initialize all properties.
+        this.bounds_ = bounds;
+        this.image_ = image;
+        this.map_ = map;
+
+        // Define a property to hold the image's div. We'll
+        // actually create this div upon receipt of the onAdd()
+        // method so we'll leave it null for now.
+        this.div_ = null;
+
+        // Explicitly call setMap on this overlay.
+        this.setMap(map);
+      }
+
+      /**
+       * onAdd is called when the map's panes are ready and the overlay has been
+       * added to the map.
+       */
+      USGSOverlay.prototype.onAdd = function() {
+
+        var div = document.createElement('div');
+        div.style.borderStyle = 'none';
+        div.style.borderWidth = '0px';
+        div.style.position = 'absolute';
+
+        // Create the img element and attach it to the div.
+        var img = document.createElement('img');
+        img.src = this.image_;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.position = 'absolute';
+        div.appendChild(img);
+
+        this.div_ = div;
+
+        // Add the element to the "overlayLayer" pane.
+        var panes = this.getPanes();
+        panes.overlayLayer.appendChild(div);
+      };
+
+      USGSOverlay.prototype.draw = function() {
+
+        // We use the south-west and north-east
+        // coordinates of the overlay to peg it to the correct position and size.
+        // To do this, we need to retrieve the projection from the overlay.
+        var overlayProjection = this.getProjection();
+
+        // Retrieve the south-west and north-east coordinates of this overlay
+        // in LatLngs and convert them to pixel coordinates.
+        // We'll use these coordinates to resize the div.
+        var sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
+        var ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
+
+        // Resize the image's div to fit the indicated dimensions.
+        var div = this.div_;
+        div.style.left = sw.x + 'px';
+        div.style.top = ne.y + 'px';
+        div.style.width = (ne.x - sw.x) + 'px';
+        div.style.height = (sw.y - ne.y) + 'px';
+      };
+
+      // The onRemove() method will be called automatically from the API if
+      // we ever set the overlay's map property to 'null'.
+      USGSOverlay.prototype.onRemove = function() {
+        this.div_.parentNode.removeChild(this.div_);
+        this.div_ = null;
+      };
+
+      //google.maps.event.addDomListener(window, 'load', initMap);
+    </script>
+  </head>
+  <body>
+    <div id="map"></div>
+  </body>
+</html>

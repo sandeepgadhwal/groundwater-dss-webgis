@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 #    'django.contrib.gis',
     'gistool',
     'bootstrap3',
+    'jquery',
 ]
 
 MIDDLEWARE = [

@@ -16,3 +16,7 @@
 .input-group-addon {
     min-width:200px;
 }
+
+#map {
+	margin: 50px;
+}
