@@ -140,7 +140,7 @@ def calculatedr(timenow, DW, DF_name, RW, RF_name, AW, AF_name, SW, SF_name, TW,
         try:
             IF_name = project(IF_name, rasterxsize, rasterysize, datatype, projection, geotransform)
             IF_ds = gdal.Open(os.path.join(settings.MEDIA_ROOT, IF_name))
-            TF_ba = BandReadAsArray(IF_ds.GetRasterBand(1))
+            IF_ba = BandReadAsArray(IF_ds.GetRasterBand(1))
         except:
             IF_ba = DF_ba*0
             divisor = divisor-1;
