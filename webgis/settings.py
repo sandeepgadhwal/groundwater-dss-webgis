@@ -131,7 +131,7 @@ STATICFILES_FINDERS = (
 )
 STATICFILES_DIRS = (
     # location of your application, should not be public web accessible
-#    '/home/sandyjones/webgis/gistool/static',
+   '/home/sandyjones/webgis/gistool/static',
 )
 
 # Media files (Uploaded Geotiff, processed geotiff, processed png)

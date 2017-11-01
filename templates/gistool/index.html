@@ -16,6 +16,7 @@
     {% bootstrap_messages %}
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static "style.css" %} "/>
+    <link href="{% static "favicon.ico" %} " rel="shortcut icon" type="image/vnd.microsoft.icon">
   </head>
   <body>
   <h1 id="title" align="center">Coastal Groundwater Vulnerability Assessment and Mapping (CGWVAM)</h1>
@@ -253,13 +254,13 @@
       <div id="downloads" class="text-center">
         <h1><span>DOWNLOADS</span></h1>
           {% if output_file_url %}
-            <a class="btn btn-success btn-lg" href="{{ output_file_url }}" target="_blank"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Single Band file (GeoTiff)</a>
+            <a class="btn btn-success btn-lg" href="{{ output_file_url }}" download><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Single Band file (GeoTiff)</a>
           {% endif %}
           {% if rendered_file_url %}
-            <a class="btn btn-success btn-lg" href="{{ rendered_file_url }}" target="_blank"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Coloured RGB file (GeoTiff)</a>
+            <a class="btn btn-success btn-lg" href="{{ rendered_file_url }}" download><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Coloured RGB file (GeoTiff)</a>
           {% endif %}
           {% if png_file_url %}
-          <a class="btn btn-success btn-lg" href="{{ png_file_url }}" target="_blank"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Map Overlay file (PNG)</a>
+          <a class="btn btn-success btn-lg" href="{{ png_file_url }}" download><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Map Overlay file (PNG)</a>
             <script>
             javascript:initMap('{{ png_file_url }}',{{ minx }},{{ miny }},{{ maxx }},{{ maxy }});
             </script>

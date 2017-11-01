@@ -3,16 +3,71 @@
 }
 
 #uploadinput {
-	padding: 50px;
+	padding: 20px 50 0 50px;
 	margin: 0 auto;
 	max-width: 920px;
 }
 
+div#analysis {
+	width :50%;
+	margin-bottom: 20px;
+}
+select#analysis {
+	min-height: 200px;
+}
+
+div#analysis > span{
+	background: rgba(244,67,54,.7)!important;
+	color: white;
+	font-size: 16px;
+	max-width:200px;
+}
 .input-group {
 	width: 100%;
 	padding: 5 0px;
+  margin: 0 auto;
+  float: none;
 }
 
 .input-group-addon {
-    min-width:200px;
+    min-width:250px;
+		background: rgba(255,152,0,.7)!important;
+		color: white;
+		font-size: 16px;
+}
+
+#map {
+	margin: auto 10% auto 10%;
+	max-height: 80vh !important;
+}
+.well{
+	margin-bottom: 0!important;
+	border-radius: 0px;
+}
+
+#downloads{
+  border:2px dotted grey;
+	margin: 20px 10% auto 10%;
+	padding: 0 0 20px 0;
+}
+
+#downloads h1{
+    text-align: center;
+    margin-top: -10px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 20px;
+}
+#downloads h1 span{
+    background-color: white;
+		padding: 0 10;
+		color:#2F4F4F;
+}
+#downloads a{
+	min-width:250px;
+	margin: 10px 20px ;
+}
+
+#results {
+	margin: 50px auto 10px auto;
 }
