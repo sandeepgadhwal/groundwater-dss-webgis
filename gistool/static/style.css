@@ -2,6 +2,40 @@
 	padding : 0px;
 }
 
+#title {
+	position: relative;
+	max-width: 980px;
+	top: 0;
+	margin: 0px auto 0px auto;
+}
+.titleimage{
+    height: 100px; /*can be anythi /*can be anything*/
+    position: relative;
+}
+.titleimage > img{
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+		padding: 0;
+}
+.titletext{
+	height: 100px;
+	padding: auto;
+	margin-left: auto;
+}
+
+#query{
+	position: relative;
+	margin-top: 150px;
+}
+
 #uploadinput {
 	padding: 20px 50 0 50px;
 	margin: 0 auto;

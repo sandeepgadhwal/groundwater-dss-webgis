@@ -16,17 +16,24 @@
     {% bootstrap_messages %}
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static "style.css" %} "/>
-    <link href="{% static "favicon.ico" %} " rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <link href="{{ STATIC_URL }} /favicon.ico?v=2" rel="icon" type="image/x-icon">
   </head>
   <body>
-  <h1 id="title" align="center">Coastal Groundwater Vulnerability Assessment and Mapping (CGWVAM)</h1>
+    <div id="title">
+      <div class="col-md-4 titleimage">
+        <img src="{% static "logo.png" %}"  alt="NCESS LOGO">
+      </div>
+      <div class="col-md-8 titletext">
+        <h1 >Coastal Groundwater Vulnerability Assessment and Mapping (CGWVAM)</h1>
+      </div>
+    </div>
     <div id="query" class="text-center">
     {# Display a form #}
     <form id="uploadinput" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <div id="analysis" class="input-group">
         <span class="input-group-addon">Mode of analysis &nbsp; <span class="glyphicon glyphicon-random"></span></span>
-        <div class="col-xs-12 nopad">
+        <div class="col-md-12 nopad">
           <select name="analysis" class="selectpicker form-control" data-live-search="true" title="Please select one Analysis mode" required style="min-height:45px;">
             <option value="drastic">DRASTIC-U</option>
             <option value="galdit">GALDIT-U</option>
@@ -35,73 +42,73 @@
       </div>
       <div class="input-group">
         <span class="input-group-addon">Depth to water table (D)</span>
-        <div class="col-xs-3 nopad">
+        <div class="col-md-3 nopad">
         <input type="text" name="DW" class="form-control" placeholder="weightage" value="5" required>
         </div>
-        <div class="col-xs-9 nopad">
+        <div class="col-md-9 nopad">
         <input type="file" name="DF" class="form-control" required>
         </div>
       </div>
       <div class="input-group">
         <span class="input-group-addon">Net Recharge (R)</span>
-        <div class="col-xs-3 nopad">
+        <div class="col-md-3 nopad">
         <input type="text" name="RW" class="form-control" placeholder="weightage" value="4">
         </div>
-        <div class="col-xs-9 nopad">
+        <div class="col-md-9 nopad">
         <input type="file" name="RF" class="form-control">
         </div>
       </div>
       <div class="input-group">
         <span class="input-group-addon">Aquifer media (A)</span>
-        <div class="col-xs-3 nopad">
+        <div class="col-md-3 nopad">
         <input type="text" name="AW" class="form-control" placeholder="weightage" value="3">
         </div>
-        <div class="col-xs-9 nopad">
+        <div class="col-md-9 nopad">
         <input type="file" name="AF" class="form-control">
         </div>
       </div>
       <div class="input-group">
         <span class="input-group-addon">Soil media (S)</span>
-        <div class="col-xs-3 nopad">
+        <div class="col-md-3 nopad">
         <input type="text" name="SW" class="form-control" placeholder="weightage" value="2">
         </div>
-        <div class="col-xs-9 nopad">
+        <div class="col-md-9 nopad">
         <input type="file" name="SF" class="form-control">
         </div>
       </div>
       <div class="input-group">
         <span class="input-group-addon">Topography / Slope (T)</span>
-        <div class="col-xs-3 nopad">
+        <div class="col-md-3 nopad">
         <input type="text" name="TW" class="form-control" placeholder="weightage" value="1">
         </div>
-        <div class="col-xs-9 nopad">
+        <div class="col-md-9 nopad">
         <input type="file" name="TF" class="form-control">
         </div>
       </div>
       <div class="input-group">
         <span class="input-group-addon">Impact of vadose zone (I)</span>
-        <div class="col-xs-3 nopad">
+        <div class="col-md-3 nopad">
         <input type="text" name="IW" class="form-control" placeholder="weightage" value="1">
         </div>
-        <div class="col-xs-9 nopad">
+        <div class="col-md-9 nopad">
         <input type="file" name="IF" class="form-control">
         </div>
       </div>
       <div class="input-group">
         <span class="input-group-addon">Hydraulic Conductivity (C)</span>
-        <div class="col-xs-3 nopad">
+        <div class="col-md-3 nopad">
         <input type="text" name="CW" class="form-control" placeholder="weightage" value="3">
         </div>
-        <div class="col-xs-9 nopad">
+        <div class="col-md-9 nopad">
         <input type="file" name="CF" class="form-control">
         </div>
       </div>
       <div class="input-group">
         <span class="input-group-addon">Impact of urban area (U)</span>
-        <div class="col-xs-3 nopad">
+        <div class="col-md-3 nopad">
         <input type="text" name="UW" class="form-control" placeholder="weightage" value="1">
         </div>
-        <div class="col-xs-9 nopad">
+        <div class="col-md-9 nopad">
         <input type="file" name="UF" class="form-control">
         </div>
       </div>
