@@ -20,7 +20,7 @@ def index(request):
             for x in indicators:
                 try:
                     globals()[x] = int(request.POST[x])
-                    print(x+" = "+globals()[x])
+                    print(x+" = "+str(globals()[x]))
                 except:
                     globals()[x] = 1
                     print("NO Wieghtage given for "+x+" Assigned default = 1")
@@ -40,10 +40,10 @@ def index(request):
             #get it processd by gdal
             response = calculatedr(timenow, DW, DF_name, RW, RF_name, AW, AF_name, SW, SF_name, TW, TF_name, IW, IF_name, CW, CF_name, UW, UF_name)
 
-        if request.POST.get('analysis') == 'galdit' :
+        else: #request.POST.get('analysis') == 'galdit' :
             print('Doing GALDIT-U Analysis')
             #get wieghtage from the form
-            indicators = ['DW', 'RW', 'AW', 'SW', 'TW', 'IW', 'CW', 'UW']
+            indicators = ['GW', 'HW', 'GTW', 'DW', 'IW', 'TW', 'UW']
             for x in indicators:
                 try:
                     globals()[x] = int(request.POST[x])
@@ -53,7 +53,7 @@ def index(request):
                     print("NO Wieghtage given for "+x+" Assigned default = 1")
 
             # get files from the form
-            indicatorfiles = ['DF', 'RF', 'AF', 'SF', 'TF', 'IF', 'CF', 'UF']
+            indicatorfiles = ['GF', 'HF', 'GTF', 'DF', 'IF', 'TF', 'UF']
             for x in indicatorfiles:
                 xname = x+"_name"
                 try:
@@ -65,7 +65,7 @@ def index(request):
                     globals()[xname] = 'blank'
                     print("No file uploaded for "+x+" Will ignore in calculations")
             #get it processd by gdal
-            response = calculatega(timenow, DW, DF_name, RW, RF_name, AW, AF_name, SW, SF_name, TW, TF_name, IW, IF_name, CW, CF_name, UW, UF_name)
+            response = calculatega(timenow, 'GW', 'HW', 'GTW', 'DW', 'IW', 'TW', 'UW')
 
         output = response[0]
         rendered = response[1]

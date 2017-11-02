@@ -33,7 +33,6 @@
 
 #query{
 	position: relative;
-	margin-top: 150px;
 }
 
 #uploadinput {
@@ -70,10 +69,19 @@ div#analysis > span{
 		font-size: 16px;
 }
 
+
 #map {
+	height: 100%;
 	margin: auto 10% auto 10%;
 	max-height: 80vh !important;
 }
+/* Optional: Makes the sample page fill the window. */
+html, body {
+ height: 100%;
+ margin: 0;
+ padding: 0;
+}
+
 .well{
 	margin-bottom: 0!important;
 	border-radius: 0px;
@@ -81,7 +89,7 @@ div#analysis > span{
 
 #downloads{
   border:2px dotted grey;
-	margin: 20px 10% auto 10%;
+	margin:30px 10% 20px 10%;
 	padding: 0 0 20px 0;
 }
 
