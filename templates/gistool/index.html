@@ -5,12 +5,14 @@
     </title>
     {# Load the tag library #}
     {% load bootstrap3 %}
+    {% load fontawesome %}
     {# Load CSS and JavaScript #}
+    {% fontawesome_stylesheet %}
     {% bootstrap_css %}
     <script type="text/javascript" src="{{ STATIC_URL }} /static/js/jquery.js">
     </script>
     {% bootstrap_javascript %}
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCve4liJjacyI50x_HJyMPYaxoGL_e7s2U"></script>
+
     {# Display django.contrib.messages as Bootstrap alerts #}
     {% bootstrap_messages %}
     {% load staticfiles %}
@@ -18,210 +20,277 @@
     <link href="{{ STATIC_URL }} /favicon.ico?v=2" rel="icon" type="image/x-icon">
   </head>
   <body>
-    <div id="title">
-      <div class="col-md-4 titleimage">
-        <img src="{% static "logo.png" %}"  alt="NCESS LOGO">
+    <div id="header">
+      <div class="col-md-4 header-left ">
+        <a href="/"><img class="header-left" src="{% static "Header-left.png" %}"  alt="NCESS LOGO"></a>
       </div>
-      <div class="col-md-8 titletext">
-        <h1 >Coastal Groundwater Vulnerability Assessment and Mapping (CGWVAM)</h1>
-      </div>
-    </div>
-    <div id="query" class="text-center">
-    {# Display a form #}
-    <form id="uploadinput" method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <div id="analysis" class="input-group">
-        <span class="input-group-addon">Mode of analysis &nbsp; <span class="glyphicon glyphicon-random"></span></span>
-        <div class="col-md-12 nopad">
-          <select id="selectanalysis" name="analysis" class="selectpicker form-control" data-live-search="true" title="Please select one Analysis mode" required style="min-height:45px;">
-            <option value="drastic">DRASTIC-U</option>
-            <option value="galdit">GALDIT-U</option>
-          </select>
-        </div>
-      </div>
-      <div id="drasticdiv">
-        <div class="input-group">
-          <span class="input-group-addon">Depth to water table (D)</span>
-          <div class="col-md-3 nopad">
-          <input type="text" name="DW" class="form-control drastic" placeholder="weightage" value="5">
+  	   <ul id="buttons">
+          <li><a class="help" href="#help">Help</a></li>
+      </ul>
+	  </div>
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <div id="sidebar-wrapper">
+        <div id="panel" class="container-fluid well text-center">
+        {# Display a form #}
+        <form id="uploadinput" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div id="analysis" class="input-group">
+            <span>Mode of analysis &nbsp; <span class="glyphicon glyphicon-random"></span></span>
+            <div class="analysischeck">
+              &nbsp;<label><input id="galditanalysis" name="galditanalysis" class="analysischeck" type="checkbox" value="1" checked>&nbsp;GALDIT-U</label>
+              &nbsp;<label><input id="drasticanalysis" name="drasticanalysis" class="analysischeck" type="checkbox" value="1" checked>&nbsp;DRASTIC-U</label>
+            </div>
           </div>
-          <div class="col-md-9 nopad">
-          <input type="file" name="DF" class="form-control drastic">
+          <div id="drasticdiv">
+            <div class="input-group">
+              <span class="input-group-addon">Depth to water table (D)</span>
+              <div class="col-md-3 nopad">
+              <input type="text" name="DW" class="form-control drastic" placeholder="weightage" value="5">
+              </div>
+              <div class="col-md-9 nopad">
+              <input type="file" name="DF" class="form-control drastic">
+              </div>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Net Recharge (R)</span>
+              <div class="col-md-3 nopad">
+              <input type="text" name="RW" class="form-control drastic" placeholder="weightage" value="4">
+              </div>
+              <div class="col-md-9 nopad">
+              <input type="file" name="RF" class="form-control drastic">
+              </div>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Aquifer media (A)</span>
+              <div class="col-md-3 nopad">
+              <input type="text" name="AW" class="form-control drastic" placeholder="weightage" value="3">
+              </div>
+              <div class="col-md-9 nopad">
+              <input type="file" name="AF" class="form-control drastic">
+              </div>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Soil media (S)</span>
+              <div class="col-md-3 nopad">
+              <input type="text" name="SW" class="form-control drastic" placeholder="weightage" value="2">
+              </div>
+              <div class="col-md-9 nopad">
+              <input type="file" name="SF" class="form-control drastic">
+              </div>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Topography / Slope (T)</span>
+              <div class="col-md-3 nopad">
+              <input type="text" name="TW" class="form-control drastic" placeholder="weightage" value="1">
+              </div>
+              <div class="col-md-9 nopad">
+              <input type="file" name="TF" class="form-control drastic">
+              </div>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Impact of vadose zone (I)</span>
+              <div class="col-md-3 nopad">
+              <input type="text" name="IW" class="form-control drastic" placeholder="weightage" value="1">
+              </div>
+              <div class="col-md-9 nopad">
+              <input type="file" name="IF" class="form-control drastic">
+              </div>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Hydraulic Conductivity (C)</span>
+              <div class="col-md-3 nopad">
+              <input type="text" name="CW" class="form-control drastic" placeholder="weightage" value="3">
+              </div>
+              <div class="col-md-9 nopad">
+              <input type="file" name="CF" class="form-control drastic">
+              </div>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">Impact of urban area (U)</span>
+              <div class="col-md-3 nopad">
+              <input type="text" name="UW" class="form-control drastic" placeholder="weightage" value="1">
+              </div>
+              <div class="col-md-9 nopad">
+              <input type="file" name="UF" class="form-control drastic">
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon">Net Recharge (R)</span>
-          <div class="col-md-3 nopad">
-          <input type="text" name="RW" class="form-control drastic" placeholder="weightage" value="4">
-          </div>
-          <div class="col-md-9 nopad">
-          <input type="file" name="RF" class="form-control drastic">
-          </div>
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon">Aquifer media (A)</span>
-          <div class="col-md-3 nopad">
-          <input type="text" name="AW" class="form-control drastic" placeholder="weightage" value="3">
-          </div>
-          <div class="col-md-9 nopad">
-          <input type="file" name="AF" class="form-control drastic">
-          </div>
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon">Soil media (S)</span>
-          <div class="col-md-3 nopad">
-          <input type="text" name="SW" class="form-control drastic" placeholder="weightage" value="2">
-          </div>
-          <div class="col-md-9 nopad">
-          <input type="file" name="SF" class="form-control drastic">
-          </div>
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon">Topography / Slope (T)</span>
-          <div class="col-md-3 nopad">
-          <input type="text" name="TW" class="form-control drastic" placeholder="weightage" value="1">
-          </div>
-          <div class="col-md-9 nopad">
-          <input type="file" name="TF" class="form-control drastic">
-          </div>
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon">Impact of vadose zone (I)</span>
-          <div class="col-md-3 nopad">
-          <input type="text" name="IW" class="form-control drastic" placeholder="weightage" value="1">
-          </div>
-          <div class="col-md-9 nopad">
-          <input type="file" name="IF" class="form-control drastic">
-          </div>
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon">Hydraulic Conductivity (C)</span>
-          <div class="col-md-3 nopad">
-          <input type="text" name="CW" class="form-control drastic" placeholder="weightage" value="3">
-          </div>
-          <div class="col-md-9 nopad">
-          <input type="file" name="CF" class="form-control drastic">
-          </div>
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon">Impact of urban area (U)</span>
-          <div class="col-md-3 nopad">
-          <input type="text" name="UW" class="form-control drastic" placeholder="weightage" value="1">
-          </div>
-          <div class="col-md-9 nopad">
-          <input type="file" name="UF" class="form-control drastic">
-          </div>
-        </div>
-      </div>
 
-      <!--div id="galditdiv">
-        <div class="input-group">
-          <span class="input-group-addon">Groundwater occurrence (Aquifer type)</span>
-          <div class="col-md-3 nopad">
-          <input type="text" name="GW" class="form-control galdit" placeholder="weightage" value="5">
+          <div id="galditdiv">
+            <div class="input-group">
+              <span class="input-group-addon">Groundwater occurrence (Aquifer type)</span>
+              <div class="col-md-3 nopad">
+              <input type="text" name="GW" class="form-control galdit" placeholder="weightage" value="5">
+              </div>
+              <div class="col-md-9 nopad">
+              <input type="file" name="GF" class="form-control galdit">
+              </div>
+            </div>
+          <div class="input-group">
+            <span class="input-group-addon">Hydraulic Conductivity (GDP/m3)</span>
+            <div class="col-md-3 nopad">
+            <input type="text" name="HW" class="form-control galdit" placeholder="weightage" value="5">
+            </div>
+            <div class="col-md-9 nopad">
+            <input type="file" name="HF" class="form-control galdit">
+            </div>
           </div>
-          <div class="col-md-9 nopad">
-          <input type="file" name="GF" class="form-control galdit">
+          <div class="input-group">
+            <span class="input-group-addon">Groundwater Table above MSL (m)</span>
+            <div class="col-md-3 nopad">
+            <input type="text" name="GTW" class="form-control galdit" placeholder="weightage" value="5">
+            </div>
+            <div class="col-md-9 nopad">
+            <input type="file" name="GTF" class="form-control galdit">
+            </div>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Distance from Shore (spatial extend of area from shoreline) (m)</span>
+            <div class="col-md-3 nopad">
+            <input type="text" name="DW" class="form-control galdit" placeholder="weightage" value="5">
+            </div>
+            <div class="col-md-9 nopad">
+            <input type="file" name="DF" class="form-control galdit">
+            </div>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Impact of existing Seawater intrusion zone (Cl-/HCO3 ratio)</span>
+            <div class="col-md-3 nopad">
+            <input type="text" name="IW" class="form-control galdit" placeholder="weightage" value="5">
+            </div>
+            <div class="col-md-9 nopad">
+            <input type="file" name="IF" class="form-control galdit">
+            </div>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Thickness of Saturated layer (m) in vertical scale</span>
+            <div class="col-md-3 nopad">
+            <input type="text" name="TW" class="form-control galdit" placeholder="weightage" value="5">
+            </div>
+            <div class="col-md-9 nopad">
+            <input type="file" name="TF" class="form-control galdit">
+            </div>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">Impact of Urban area on seawater intrusion</span>
+            <div class="col-md-3 nopad">
+            <input type="text" name="UW" class="form-control galdit" placeholder="weightage" value="5">
+            </div>
+            <div class="col-md-9 nopad">
+            <input type="file" name="UF" class="form-control galdit">
+            </div>
+          </div>
+        </div>
+          </br>
+          {% buttons %}
+            <button type="submit" name="d" class="btn btn-primary">
+              {% bootstrap_icon "ok" %} Calculate
+            </button>
+          {% endbuttons %}
+        </form>
+        <div id="results">
+          <div id="downloads" class="text-center">
+            <h1><span>DOWNLOADS</span></h1>
+              {% if outputdr_file_url %}
+                <a class="btn" href="{{ outputdr_file_url }}" download><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Single Band file (GeoTiff)</a>
+              {% endif %}
+              {% if rendereddr_file_url %}
+                <a class="btn" href="{{ rendereddr_file_url }}" download><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Coloured RGB file (GeoTiff)</a>
+              {% endif %}
+              {% if pngdr_file_url %}
+              <a class="btn" href="{{ pngdr_file_url }}" download><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Map Overlay file (PNG)</a>
+              {% endif %}
           </div>
         </div>
       </div>
-      <div class="input-group">
-        <span class="input-group-addon">Hydraulic Conductivity (GDP/m3)</span>
-        <div class="col-md-3 nopad">
-        <input type="text" name="HW" class="form-control galdit" placeholder="weightage" value="5">
-        </div>
-        <div class="col-md-9 nopad">
-        <input type="file" name="HF" class="form-control galdit">
-        </div>
-      </div>
-      <div class="input-group">
-        <span class="input-group-addon">Groundwater Table above MSL (m)</span>
-        <div class="col-md-3 nopad">
-        <input type="text" name="GTW" class="form-control galdit" placeholder="weightage" value="5">
-        </div>
-        <div class="col-md-9 nopad">
-        <input type="file" name="GTF" class="form-control galdit">
-        </div>
-      </div>
-      <div class="input-group">
-        <span class="input-group-addon">Distance from Shore (spatial extend of area from shoreline) (m)</span>
-        <div class="col-md-3 nopad">
-        <input type="text" name="DW" class="form-control galdit" placeholder="weightage" value="5">
-        </div>
-        <div class="col-md-9 nopad">
-        <input type="file" name="DF" class="form-control galdit">
-        </div>
-      </div>
-      <div class="input-group">
-        <span class="input-group-addon">Impact of existing Seawater intrusion zone (Cl-/HCO3 ratio)</span>
-        <div class="col-md-3 nopad">
-        <input type="text" name="IW" class="form-control galdit" placeholder="weightage" value="5">
-        </div>
-        <div class="col-md-9 nopad">
-        <input type="file" name="IF" class="form-control galdit">
-        </div>
-      </div>
-      <div class="input-group">
-        <span class="input-group-addon">Thickness of Saturated layer (m) in vertical scale</span>
-        <div class="col-md-3 nopad">
-        <input type="text" name="TW" class="form-control galdit" placeholder="weightage" value="5">
-        </div>
-        <div class="col-md-9 nopad">
-        <input type="file" name="TF" class="form-control galdit">
-        </div>
-      </div>
-      <div class="input-group">
-        <span class="input-group-addon">Impact of Urban area on seawater intrusion</span>
-        <div class="col-md-3 nopad">
-        <input type="text" name="UW" class="form-control galdit" placeholder="weightage" value="5">
-        </div>
-        <div class="col-md-9 nopad">
-        <input type="file" name="UF" class="form-control galdit">
-        </div>
-      </div>
-    </div!-->
-    </br>
-      {% buttons %}
-        <button type="submit" name="d" class="btn btn-lg btn-primary">
-          {% bootstrap_icon "ok" %} Calculate
-        </button>
-      {% endbuttons %}
-    </form>
     </div>
-    <div id="map"></div>
+    <div id="page-content-wrapper">
+      <div id="mapwrapper" class="container-fluid">
+        <div id="map" class="">
+        </div>
+        <div id="#menu-toggle" class="mini-submenu pull-left" style="display: block;">
+          <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle"><i class="fa fa-bars fa-6" aria-hidden="true">&nbsp;Analysis</i></a>
+        </div>
+        <div id="layer-toggle" class="pull-right well" style="display: block;">
+          <h5>Layer Menu</h5>
+          <label><input id="galditcheck" class="overlaycheck" type="checkbox" value="" checked>&nbsp;GALDIT-U</label></br>
+          <input id="galditopacity" class="opacity" type="range"  min="0" max="1" value="1" step="0.1"/>
+          <label><input id="drasticcheck" class="overlaycheck" type="checkbox" value="" checked>&nbsp;DRASTIC-U</label>
+          <input id="drasticopacity" class="opacity" type="range"  min="0" max="1" value="1" step="0.1"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+  });
+  </script>
     <script>
       //google maps
-      //var map;
-      maphit = 0;
+      var map;
       var overlay;
-      USGSOverlay.prototype = new google.maps.OverlayView();
+      var drasticpng;
+      var galditpng;
       // Initialize the map and the custom overlay.
-      function initMap(png,minx,miny,maxx,maxy) {
-        maphit = maphit+1;
-        console.log(maphit);
+      function initMap() {
          window.map = new google.maps.Map(document.getElementById('map'), {
-          //center: {lat: (miny+maxy)/2, lng: (minx+maxx)/2},
-          zoom: 15,
+          center: {lat:  22.414024, lng: 80.461715},
+          zoom: 5,
           mapTypeId: 'roadmap'
         });
-        //infoWindow = new google.maps.InfoWindow;
-
-        // The photograph is courtesy of the U.S. Geological Survey.
-        if (png) {
-          var srcImage = window.location.origin+png;//png;
-          //console.log(srcImage);
-          // The custom USGSOverlay object contains the USGS image,
-          // the bounds of the image, and a reference to the map.
-          var bounds = new google.maps.LatLngBounds(
-              new google.maps.LatLng(miny, minx),
-              new google.maps.LatLng(maxy, maxx));
-          map.fitBounds(bounds);
-          overlay = new USGSOverlay(bounds, srcImage, map);
+          //infoWindow = new google.maps.InfoWindow;
+        if (navigator.geolocation) {
+          navigator.geolocation.watchPosition(function(position) {
+            var geolocate = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            if (drasticpng || galditpng){
+              console.log('Zooming to the image layer')
+            }
+            else {
+            map.setCenter(geolocate);
+            map.setZoom(15);
+            }
+            var marker = new google.maps.Marker({
+              position: {lat: position.coords.latitude, lng: position.coords.longitude},
+              map: map,
+              title: 'Your location!'
+            });
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
         }
       }
 
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+      };
+      </script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCve4liJjacyI50x_HJyMPYaxoGL_e7s2U&callback=initMap">
+      </script>
+      <script>
+      var drasticoverlay;
+      drasticoverlay.prototype = new google.maps.OverlayView();
+      function drasticpngoverlay (png, minx, miny, maxx, maxy) {
+        var srcImage = window.location.origin+png;//png;
+        //console.log(srcImage);
+        // The custom drasticoverlay object contains the USGS image,
+        // the bounds of the image, and a reference to the map.
+        var bounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(miny, minx),
+            new google.maps.LatLng(maxy, maxx));
+        map.fitBounds(bounds);
+        drasticoverlay = new drasticoverlay(bounds, srcImage, map);
+      };
+        //
       /** @constructor */
-      function USGSOverlay(bounds, image, map) {
+      function drasticoverlay(bounds, image, map) {
 
         // Initialize all properties.
         this.bounds_ = bounds;
@@ -241,7 +310,7 @@
        * onAdd is called when the map's panes are ready and the overlay has been
        * added to the map.
        */
-      USGSOverlay.prototype.onAdd = function() {
+      drasticoverlay.prototype.onAdd = function() {
 
         var div = document.createElement('div');
         div.style.borderStyle = 'none';
@@ -263,7 +332,7 @@
         panes.overlayLayer.appendChild(div);
       };
 
-      USGSOverlay.prototype.draw = function() {
+      drasticoverlay.prototype.draw = function() {
 
         // We use the south-west and north-east
         // coordinates of the overlay to peg it to the correct position and size.
@@ -286,114 +355,184 @@
 
       // The onRemove() method will be called automatically from the API if
       // we ever set the overlay's map property to 'null'.
-      USGSOverlay.prototype.onRemove = function() {
+      drasticoverlay.prototype.onRemove = function() {
         this.div_.parentNode.removeChild(this.div_);
         this.div_ = null;
       };
 
+      var galditoverlay;
+      galditoverlay.prototype = new google.maps.OverlayView();
+      function galditpngoverlay (png, minx, miny, maxx, maxy) {
+        var srcImage = window.location.origin+png;//png;
+        //console.log(srcImage);
+        // The custom galditoverlay object contains the USGS image,
+        // the bounds of the image, and a reference to the map.
+        var bounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(miny, minx),
+            new google.maps.LatLng(maxy, maxx));
+        map.fitBounds(bounds);
+        galditoverlay = new galditoverlay(bounds, srcImage, map);
+      };
+        //
+      /** @constructor */
+      function galditoverlay(bounds, image, map) {
 
-      if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(function(position) {
-          var geolocate = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-          if (maphit<1){
-          map.setCenter(geolocate);
-          }
-          function addMarker(position) {
-          var marker = new google.maps.Marker({
-            position: position,
-            map: map
-          });
-          markers.push(marker);
-        }
-        });
-      } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
+        // Initialize all properties.
+        this.bounds_ = bounds;
+        this.image_ = image;
+        this.map_ = map;
+
+        // Define a property to hold the image's div. We'll
+        // actually create this div upon receipt of the onAdd()
+        // method so we'll leave it null for now.
+        this.div_ = null;
+
+        // Explicitly call setMap on this overlay.
+        this.setMap(map);
       }
 
-      // Try HTML5 geolocation.
-      /*function getlocation(){
-        if (navigator.geolocation) {
-          navigator.geolocation.watchPosition(function(position) {
-            var geolocate = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            map.setCenter(geolocate);
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
+      /**
+       * onAdd is called when the map's panes are ready and the overlay has been
+       * added to the map.
+       */
+      galditoverlay.prototype.onAdd = function() {
 
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Location found.');
-            infoWindow.open(map);
-            map.setCenter(pos);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }
-      }*/
-      //setInterval(function(){getlocation();}, 10000);
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-      }
-      function finitMap (){
-        if (maphit<1){
-          initMap('','68.14712','23.63936','97.34466','28.20453');
-          $('html,body').animate({
-                  scrollTop: $("#title").offset().top},
-            'slow');
-        }
-        else{
-          $('html,body').animate({
-                  scrollTop: $("#results").offset().top},
-            'slow');
-        }
-        }
-        google.maps.event.addDomListener(window, 'load', finitMap);
+        var div = document.createElement('div');
+        div.style.borderStyle = 'none';
+        div.style.borderWidth = '0px';
+        div.style.position = 'absolute';
+
+        // Create the img element and attach it to the div.
+        var img = document.createElement('img');
+        img.src = this.image_;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.position = 'absolute';
+        div.appendChild(img);
+
+        this.div_ = div;
+
+        // Add the element to the "overlayLayer" pane.
+        var panes = this.getPanes();
+        panes.overlayLayer.appendChild(div);
+      };
+
+      galditoverlay.prototype.draw = function() {
+
+        // We use the south-west and north-east
+        // coordinates of the overlay to peg it to the correct position and size.
+        // To do this, we need to retrieve the projection from the overlay.
+        var overlayProjection = this.getProjection();
+
+        // Retrieve the south-west and north-east coordinates of this overlay
+        // in LatLngs and convert them to pixel coordinates.
+        // We'll use these coordinates to resize the div.
+        var sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
+        var ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
+
+        // Resize the image's div to fit the indicated dimensions.
+        var div = this.div_;
+        div.style.left = sw.x + 'px';
+        div.style.top = ne.y + 'px';
+        div.style.width = (ne.x - sw.x) + 'px';
+        div.style.height = (sw.y - ne.y) + 'px';
+      };
+
+      // The onRemove() method will be called automatically from the API if
+      // we ever set the overlay's map property to 'null'.
+      galditoverlay.prototype.onRemove = function() {
+        this.div_.parentNode.removeChild(this.div_);
+        this.div_ = null;
+      };
     </script>
     <script>
-      //$('input.drastic').prop('required',true);
       //console.log($("#selectanalysis option:selected").val());
-      $(function() {
-        $('#selectanalysis').change(function(){
+    /*  $(function() {
+        $('input[class="analysischeck"]').change(function(){
         //console.log($(this).val());
-        if ($(this).val() == "galdit") {
-          $('input.galdit').prop('required',true);
+        if ($('input#drasticanalysis').is(":checked")) {
+          $('input.drastic').prop('required',true);
+          $('#drasticdiv').show();
+        }
+        else {
           $('input.drastic').prop('required',false);
-          $("#galditdiv").show();
           $('#drasticdiv').hide();
+        }
+        if ($('input#galditanalysis').is(":checked")) {
+          $('input.galdit').prop('required',true);
+          $('#galditdiv').show();
         }
         else {
           $('input.galdit').prop('required',false);
-          $('input.drastic').prop('required',true);
           $('#galditdiv').hide();
-          $('#drasticdiv').show();
         }
       });
       });
+*/
+      $(function(){
+        $('input[class="opacity"]').change(function(){
+          console.log($('input#drasticopacity').val());
+          console.log($('input#galditopacity').val());
+          $("img[src$='"+drasticpng+"']").css('opacity', $('input#drasticopacity').val());
+          $("img[src$='"+galditpng+"']").css('opacity', $('input#galditopacity').val());
+        })
+      });
+
+      $(function() {
+        $('input[class="overlaycheck"]').change(function(){
+          $("img[src$='"+drasticpng+"']").css('opacity',0.5);
+          $("img[src$='"+galditpng+"']").css('opacity',0.5);
+          //console.log(document.getElementById('opacity').value);
+        //console.log($(this).val());
+        if ($('input#drasticcheck').is(":checked")) {
+          try {
+              drasticoverlay.setMap(map);
+          }
+          catch(err) {
+              console.log("no drastic overlay image")
+          }
+        }
+        else {
+          try {
+              drasticoverlay.setMap(null);
+          }
+          catch(err) {
+              console.log("no drastic overlay image")
+          }
+        }
+        if ($('input#galditcheck').is(":checked")) {
+          try {
+              galditoverlay.setMap(map);
+          }
+          catch(err) {
+              console.log("no galdit overlay image")
+          }
+        }
+        else {
+          try {
+              galditoverlay.setMap(null);
+          }
+          catch(err) {
+              console.log("no galdit overlay image")
+          }
+        }
+      });
+      });
+
     </script>
-    <div id="results">
-      <div id="downloads" class="text-center">
-        <h1><span>DOWNLOADS</span></h1>
-          {% if output_file_url %}
-            <a class="btn btn-success btn-lg" href="{{ output_file_url }}" download><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Single Band file (GeoTiff)</a>
-          {% endif %}
-          {% if rendered_file_url %}
-            <a class="btn btn-success btn-lg" href="{{ rendered_file_url }}" download><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Coloured RGB file (GeoTiff)</a>
-          {% endif %}
-          {% if png_file_url %}
-          <a class="btn btn-success btn-lg" href="{{ png_file_url }}" download><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Map Overlay file (PNG)</a>
-            <script>
-            javascript:initMap('{{ png_file_url }}',{{ minx }},{{ miny }},{{ maxx }},{{ maxy }});
-            </script>
-          {% endif %}
-      </div>
-    </div>
+    {% if pngdr_file_url %}
+      <script>
+      drasticpng = '{{ pngdr_file_url }}' ;
+      //console.log(drasticpng);
+      javascript:drasticpngoverlay('{{ pngdr_file_url }}',{{ minxdr }},{{ minydr }},{{ maxxdr }},{{ maxydr }});
+      </script>
+    {% endif %}
+    {% if pngga_file_url %}
+      <script>
+      galditpng = '{{ pngga_file_url }}' ;
+      //console.log(galditpng);
+      javascript:galditpngoverlay('{{ pngga_file_url }}',{{ minxga }},{{ minyga }},{{ maxxga }},{{ maxyga }});
+      </script>
+    {% endif %}
   </body>
 </html>

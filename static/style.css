@@ -1,34 +1,86 @@
-.navbar {
-  margin: 10px 0;
-}
-.navbar-default {
-background-color: #fff;
-border-color: #fff;
-}
-.brand-name {
- font-family: 'Josefin Slab', serif;
- font-size: 47px;
- font-weight: bold;
- color: #444;
- text-decoration: none;
+#header {
+    background: url(http://maps.cerdi.com.au/images/VVG-map-header.jpg) no-repeat top center;
+    height: 82px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 0;
 }
 
-.nav-container {
-padding-top: 8px;
+#buttons {
+    list-style: none;
+    margin: 32px 20px 0 0;
+    padding: 0;
+    float: right;
 }
 
-.navbar-custom {
-    font-size: 20px;
-    background-color: #FFF;
+#buttons li {
+    float: left;
+    margin: 10px 0 0 10px;
 }
+
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+
+#buttons a {
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    color: white;
+    display: block;
+    padding: 0px 9px;
+    height: 29px;
+    line-height: 31px;
+    min-width: 54px;
+    background-color: #013159;
+    background-image: -webkit-linear-gradient(top,#013159,#012949);
+    background-image: -moz-linear-gradient(top,#013159,#012949);
+    background-image: -ms-linear-gradient(top,#013159,#012949);
+    background-image: -o-linear-gradient(top,#013159,#012949);
+    background-image: linear-gradient(top,#013159,#012949);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+}
+
+a, a:visited {
+    color: #0860AA;
+    text-decoration: none;
+}
+
+#buttons {
+    list-style: none;
+    margin: 32px 20px 0 0;
+    padding: 0;
+    float: right;
+}
+
+
 
 .nopad {
 	padding : 0px;
 }
 
-body {
-	background-color: 	#D3D3D3;
+#query{
+	position: relative;
 }
+
 #uploadinput {
 	padding: 20px 50 0 50px;
 	margin: 0 auto;
@@ -63,10 +115,19 @@ div#analysis > span{
 		font-size: 16px;
 }
 
+
 #map {
+	height: 100%;
 	margin: auto 10% auto 10%;
 	max-height: 80vh !important;
 }
+/* Optional: Makes the sample page fill the window. */
+html, body {
+ height: 100%;
+ margin: 0;
+ padding: 0;
+}
+
 .well{
 	margin-bottom: 0!important;
 	border-radius: 0px;
@@ -74,7 +135,7 @@ div#analysis > span{
 
 #downloads{
   border:2px dotted grey;
-	margin: 20px 10% auto 10%;
+	margin:30px 10% 20px 10%;
 	padding: 0 0 20px 0;
 }
 

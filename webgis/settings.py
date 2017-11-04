@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'gistool',
     'bootstrap3',
     'jquery',
+    'fontawesome',
 ]
 
 MIDDLEWARE = [
