@@ -67,40 +67,40 @@ def index(request):
         except:
             print('Not Doing DRASTIC-U Analysis')
 
-        print('Doing GALDIT-U Analysis')
-        #get wieghtage from the form
-        indicators = ['GW', 'HW', 'GTW', 'DW', 'IW', 'TW', 'UW']
-        for x in indicators:
-            try:
-                globals()[x] = int(request.POST[x])
-                print(x+" = "+globals()[x])
-            except:
-                globals()[x] = 1
-                print("NO Wieghtage given for "+x+" Assigned default = 1")
-
-        # get files from the form
-        indicatorfiles = ['GF', 'HF', 'GTF', 'DF', 'IF', 'TF', 'UF']
-        for x in indicatorfiles:
-            xname = x+"_name"
-            try:
-                globals()[x] = request.FILES[x]
-                globals()[xname] = timenow+'-input-'+'-'+x+'-'+globals()[x].name
-                fs.save(globals()[xname], globals()[x])
-                print (x+" File saved by name "+globals()[xname])
-            except:
-                globals()[xname] = 'blank'
-                print("No file uploaded for "+x+" Will ignore in calculations")
-        #get it processd by gdal
-        responsega = calculatega(timenow, GW, GF_name, HW, HF_name, GTW, GTF_name, DW, DF_name, IW, IF_name, TW, TF_name, UW, UF_name)
-        outputga = responsega[0]
-        renderedga = responsega[1]
-        pngga = responsega[2]
-        minxga = responsega[3]
-        minyga = responsega[4]
-        maxxga = responsega[5]
-        maxyga = responsega[6]
-
         try:
+            print('Doing GALDIT-U Analysis')
+            #get wieghtage from the form
+            indicators = ['GW', 'HW', 'GTW', 'DW', 'IW', 'TW', 'UW']
+            for x in indicators:
+                try:
+                    globals()[x] = int(request.POST[x])
+                    print(x+" = "+globals()[x])
+                except:
+                    globals()[x] = 1
+                    print("NO Wieghtage given for "+x+" Assigned default = 1")
+
+            # get files from the form
+            indicatorfiles = ['GF', 'HF', 'GTF', 'DF', 'IF', 'TF', 'UF']
+            for x in indicatorfiles:
+                xname = x+"_name"
+                try:
+                    globals()[x] = request.FILES[x]
+                    globals()[xname] = timenow+'-input-'+'-'+x+'-'+globals()[x].name
+                    fs.save(globals()[xname], globals()[x])
+                    print (x+" File saved by name "+globals()[xname])
+                except:
+                    globals()[xname] = 'blank'
+                    print("No file uploaded for "+x+" Will ignore in calculations")
+            #get it processd by gdal
+            responsega = calculatega(timenow, GW, GF_name, HW, HF_name, GTW, GTF_name, DW, DF_name, IW, IF_name, TW, TF_name, UW, UF_name)
+            outputga = responsega[0]
+            renderedga = responsega[1]
+            pngga = responsega[2]
+            minxga = responsega[3]
+            minyga = responsega[4]
+            maxxga = responsega[5]
+            maxyga = responsega[6]
+
             #request.POST.get('analysis') == 'galdit' :
             if request.POST.get('galditanalysis') == '1' :
                 pass

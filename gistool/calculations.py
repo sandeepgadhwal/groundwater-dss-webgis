@@ -171,7 +171,7 @@ def calculatedr(timenow, DW, DF_name, RW, RF_name, AW, AF_name, SW, SF_name, TW,
             #divisor = divisor-1;
     #CALCULATE ALL VALUES
     CALC_ba = DF_ba * DW + RF_ba * RW + AF_ba * AW + SF_ba * SW + TF_ba * TW + IF_ba * IW + CF_ba*CW #+ UF_ba*UW
-    #CALC_ba = np.divide(CALC_ba, divisor)
+    CALC_ba = np.divide(CALC_ba, divisor)
 
     #CONVERT TO rgb
     colour_ba = to_rgb(CALC_ba)
@@ -327,7 +327,8 @@ def calculatega(timenow, GW, GF_name, HW, HF_name, GTW, GTF_name, DW, DF_name, I
             #divisor = divisor-1;
     #CALCULATE ALL VALUES
     CALC_ba = GF_ba * GW + HF_ba * HW + GTF_ba * GTW + DF_ba * DW + IF_ba * IW + TF_ba * TW  #+ UF_ba*UW
-    #CALC_ba = np.divide(CALC_ba, divisor)
+    divisor = divisor * 3
+    CALC_ba = np.divide(CALC_ba, divisor*3)
 
     #CONVERT TO rgb
     colour_ba = to_rgb(CALC_ba)
