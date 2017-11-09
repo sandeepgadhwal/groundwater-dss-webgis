@@ -213,6 +213,15 @@
           <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle"><i class="fa fa-bars fa-6" aria-hidden="true">&nbsp;Analysis</i></a>
         </div>
         <div id="layer-toggle" class="pull-right well" style="display: block;">
+          <div id="color-palette"></div>
+          <div>
+            <button class="btn btn-danger" id="delete-button">Delete Selected Shape</button>
+            <button class="btn btn-primary" id="calculate" onClick="calcar()">calculate area</button>
+            <div id="area"></div>
+          </div>
+          <br>
+					<div id="sharelist">
+					</div>
           <h5>Layer Menu</h5>
           <label><input id="galditcheck" class="overlaycheck" type="checkbox" value="" checked>&nbsp;GALDIT-U</label></br>
           <input id="galditopacity" class="opacity" type="range"  min="0" max="1" value="1" step="0.1"/>
@@ -231,12 +240,43 @@
     <script>
       //google maps
       var map;
+      var maphit = 0;
       var overlay;
       var drasticpng;
       var galditpng;
+      var drawingManager;
+      var selectedShape;
+
+      function clearSelection() {
+        if (selectedShape) {
+          selectedShape.setEditable(false);
+          selectedShape = null;
+        }
+      }
+
+      function setSelection(shape) {
+        clearSelection();
+        selectedShape = shape;
+        shape.setEditable(true);
+        google.maps.event.addListener(shape.getPath(), 'set_at', calcar);
+        google.maps.event.addListener(shape.getPath(), 'insert_at', calcar);
+      }
+
+      function calcar() {
+          var area = google.maps.geometry.spherical.computeArea(selectedShape.getPath());
+          document.getElementById("area").innerHTML = "Area =" + area;
+      }
+
+      function deleteSelectedShape() {
+        if (selectedShape) {
+          selectedShape.setMap(null);
+        }
+      }
+
       // Initialize the map and the custom overlay.
       function initMap() {
-         window.map = new google.maps.Map(document.getElementById('map'), {
+        maphit = maphit+1;
+          map = new google.maps.Map(document.getElementById('map'), {
           center: {lat:  22.414024, lng: 80.461715},
           zoom: 5,
           mapTypeId: 'roadmap'
@@ -262,24 +302,77 @@
           // Browser doesn't support Geolocation
           handleLocationError(false, infoWindow, map.getCenter());
         }
+
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+          infoWindow.setPosition(pos);
+          infoWindow.setContent(browserHasGeolocation ?
+                                'Error: The Geolocation service failed.' :
+                                'Error: Your browser doesn\'t support geolocation.');
+          infoWindow.open(map);
+        };
+
+        var polyOptions = {
+          strokeWeight: 0,
+          fillOpacity: 0.45,
+          editable: true
+        };
+
+        drawingManager = new google.maps.drawing.DrawingManager({
+          drawingMode: google.maps.drawing.OverlayType.POLYGON,
+          markerOptions: {
+            draggable: true
+          },
+          polylineOptions: {
+            editable: true
+          },
+          rectangleOptions: {
+            editable: true
+          },
+          circleOptions: {
+            editable: true
+          },
+          polygonOptions: {
+            editable: true
+          },
+          map: map
+        });
+
+
+      google.maps.event.addListener(drawingManager, 'overlaycomplete', function(e) {
+        if (e.type != google.maps.drawing.OverlayType.MARKER) {
+          // Switch back to non-drawing mode after drawing a shape.
+          drawingManager.setDrawingMode(null);
+
+          // Add an event listener that selects the newly-drawn shape when the user
+          // mouses down on it.
+          var newShape = e.overlay;
+          newShape.type = e.type;
+          google.maps.event.addListener(newShape, 'click', function() {
+            setSelection(newShape);
+          });
+          var area = google.maps.geometry.spherical.computeArea(newShape.getPath());
+          document.getElementById("area").innerHTML = "Area = " + area + " Sq.m" ;
+          setSelection(newShape);
+        }
+      });
+
+      // Clear the current selection when the drawing mode is changed, or when the
+      // map is clicked.
+      google.maps.event.addListener(drawingManager, 'drawingmode_changed', clearSelection);
+      google.maps.event.addListener(map, 'click', clearSelection);
+      google.maps.event.addDomListener(document.getElementById('delete-button'), 'click', deleteSelectedShape);
       }
 
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-      };
       </script>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCve4liJjacyI50x_HJyMPYaxoGL_e7s2U&callback=initMap">
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCve4liJjacyI50x_HJyMPYaxoGL_e7s2U&libraries=geometry,drawing&callback=initMap">
       </script>
       <script>
       var drasticoverlay;
       drasticoverlay.prototype = new google.maps.OverlayView();
       function drasticpngoverlay (png, minx, miny, maxx, maxy) {
         var srcImage = window.location.origin+png;//png;
-        //console.log(srcImage);
+        console.log(srcImage);
         // The custom drasticoverlay object contains the USGS image,
         // the bounds of the image, and a reference to the map.
         var bounds = new google.maps.LatLngBounds(
@@ -364,7 +457,7 @@
       galditoverlay.prototype = new google.maps.OverlayView();
       function galditpngoverlay (png, minx, miny, maxx, maxy) {
         var srcImage = window.location.origin+png;//png;
-        //console.log(srcImage);
+        console.log(srcImage);
         // The custom galditoverlay object contains the USGS image,
         // the bounds of the image, and a reference to the map.
         var bounds = new google.maps.LatLngBounds(
@@ -446,6 +539,14 @@
       };
     </script>
     <script>
+
+      function copytoclipboard(x) {
+      	var dummyContent = x;
+      	console.log("ssdfsdf");
+      	var dummy = $('<input>').val(dummyContent).appendTo('body').select();
+      	document.execCommand('copy');
+      }
+
       //console.log($("#selectanalysis option:selected").val());
     /*  $(function() {
         $('input[class="analysischeck"]').change(function(){
@@ -519,18 +620,99 @@
       });
       });
 
+
+      //declarations and page load
+      var url = "";
+      var galdit = [];
+      var drastic = [];
+      var url_string = window.location.href.toUpperCase();     // Returns full URL
+      url = new URL(url_string);
+      var galdit = url.searchParams.get("GALDIT");
+      //console.log(galdit);
+
+      var drastic = url.searchParams.get("DRASTIC");
+      //console.log(drastic);
+
+      var shareurl = window.location.origin;
+      var drasticparm = drastic+"";
+      var galditparm = galdit+"";
+      var fullurl = shareurl+"/?drastic="+drasticparm+"&galdit="+galditparm;
+      var tohtml = '<b><a href="javascript:copytoclipboard(fullurl);"><i class="fa fa-clone" aria-hidden="true"></i>&nbsp;Share Analysis Copy URl</a></b><br/><br/>';
+      $("#sharelist").html(tohtml);
+      function shareanalysis (x,p){
+        if (p == 1){
+          console.log("sdfdsf");
+          drasticparm = x.toString();
+        }
+        else if (p == 2){
+          console.log("sdfdsf");
+          galditparm = x.toString();
+        }
+        else {
+          console.log("wrong analysis sharing data supplied cannot build sahre url")
+        }
+        fullurl = shareurl+"/?drastic="+drasticparm+"&galdit="+galditparm;
+        var tohtml = '<b><a href="javascript:copytoclipboard(fullurl);"><i class="fa fa-clone" aria-hidden="true"></i>&nbsp;Share Analysis Copy URl</a></b><br/><br/>';
+        console.log(fullurl);
+        $("#shareanalysis").html(tohtml);
+      }
+
+      $(window).on('load', function(){
+      console.log(maphit);
+        if (galdit && maphit<2 ) {
+          try {
+            //console.log("loafing")
+            galdit = galdit.split(",");
+            galditpng = galdit[0].toLowerCase().replace(/['"]+/g,"");
+            minxga = galdit[1];
+            minyga = galdit[2];
+            maxxga = galdit[3];
+            maxyga = galdit[4];
+            galditpngoverlay(galditpng, minxga, minyga, maxxga, maxyga);
+          }
+          catch(e) {
+            console.log(e);
+          }
+        }
+
+        if (drastic && maphit<2) {
+          try {
+            //console.log("loafing")
+            drastic = drastic.split(",");
+            drasticpng = drastic[0].toLowerCase().replace(/['"]+/g,"");
+            minxga = drastic[1];
+            minyga = drastic[2];
+            maxxga = drastic[3];
+            maxyga = drastic[4];
+            console.log(drasticpng);
+            drasticpngoverlay(drasticpng, minxga, minyga, maxxga, maxyga);
+          }
+          catch(e) {
+            console.log(e);
+          }
+        }
+
+      });
     </script>
     {% if pngdr_file_url %}
       <script>
+      maphit = maphit + 1;
       drasticpng = '{{ pngdr_file_url }}' ;
       //console.log(drasticpng);
+      var drastic = new Array('{{ pngdr_file_url }}',{{ minxdr }},{{ minydr }},{{ maxxdr }},{{ maxydr }});
+      console.log(drastic);
+      shareanalysis(drastic, 1);
       javascript:drasticpngoverlay('{{ pngdr_file_url }}',{{ minxdr }},{{ minydr }},{{ maxxdr }},{{ maxydr }});
       </script>
     {% endif %}
     {% if pngga_file_url %}
       <script>
+      maphit = maphit + 1;
       galditpng = '{{ pngga_file_url }}' ;
       //console.log(galditpng);
+      var galdit = new Array('{{ pngga_file_url }}',{{ minxga }},{{ minyga }},{{ maxxga }},{{ maxyga }});
+      console.log(galdit);
+      shareanalysis(galdit, 2);
       javascript:galditpngoverlay('{{ pngga_file_url }}',{{ minxga }},{{ minyga }},{{ maxxga }},{{ maxyga }});
       </script>
     {% endif %}

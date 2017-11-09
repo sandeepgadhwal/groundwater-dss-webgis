@@ -1,11 +1,192 @@
+html, body {
+ height: 100%;
+ margin: 0;
+ padding: 0;
+  overflow-x: hidden;
+}
+
 #header {
     background: url(http://maps.cerdi.com.au/images/VVG-map-header.jpg) no-repeat top center;
     height: 82px;
-    position: absolute;
+    position: relative;
     left: 0;
     right: 0;
     top: 0;
     z-index: 0;
+}
+.header-left{
+	float: left;
+	padding-left: 0;
+}
+
+img.header-left{
+	max-height: 78px;
+	left: 0;
+}
+
+
+#map {
+		height: Calc(100vh - 100px);
+}
+
+#panel{
+	padding: 10px;
+}
+
+/*sidebar start*/
+/*!
+ * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
+ */
+
+body {
+  overflow-x: hidden;
+}
+#mapwrapper{
+	padding-left: 10px!important;
+	padding-right: 10px !important;
+}
+#wrapper {
+	padding-top: 10px;
+  padding-left: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+  padding-left: 450px;
+}
+
+#sidebar-wrapper {
+  z-index: 1000;
+  position: fixed;
+  left: 450px;
+  width: 0;
+  height: 100%;
+  padding-bottom: 200px;
+  margin-left: -450px;
+  overflow-y: auto;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  width: 450px;
+}
+
+#page-content-wrapper {
+  width: 100%;
+  position: absolute;
+  padding: 0px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+  position: absolute;
+  margin-right: -450px;
+}
+
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 450px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media(min-width:768px) {
+  #wrapper {
+    padding-left: 0;
+  }
+  #wrapper.toggled {
+    padding-left: 450px;
+  }
+  #sidebar-wrapper {
+    width: 0;
+  }
+  #wrapper.toggled #sidebar-wrapper {
+    width: 450px;
+  }
+  #page-content-wrapper {
+    padding-top: 0px;
+    position: relative;
+  }
+  #wrapper.toggled #page-content-wrapper {
+    position: relative;
+    margin-right: 0;
+  }
+}
+
+a#menu-toggle{
+    position: absolute;
+    top: 80px;
+    left: .5em;
+    z-index: 40;
+    font-size: 1.5em !important;
+    background: white;
+    color: #2891cf;
+}
+
+div#layer-toggle{
+    position: absolute;
+    top: 60px;
+    right: .5em;
+    z-index: 40;
+    background: white;
+}
+/*sidebar end*/
+
+#uploadinput {
+	padding: 0px;
+	margin: 0 auto;
+}
+
+div#analysis {
+	width :50%;
+	margin-bottom: 5px;
+}
+select#analysis {
+	min-height: 200px;
+}
+
+div#analysis > span{
+	background: rgba(244,67,54,.7)!important;
+	color: white;
+  padding: 10px;
+	font-size: 14px;
+  margin-bottom: 10px;
+	max-width:200px;
+}
+
+div.analysischeck{
+  margin-top: 10px;
+}
+label{
+  padding: 5px;
+	font-size: 14px !important;
+
+}
+
+.input-group {
+	width: 100%;
+	padding: 5 0px;
+  margin: 0 auto;
+	font-size: 10px;
+}
+
+.input-group-addon {
+    min-width:150px;
+		background: rgba(255,152,0,.7)!important;
+		color: white;
+		font-size: 11px;
 }
 
 #buttons {
@@ -31,25 +212,20 @@ ul, menu, dir {
 }
 
 #buttons a {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
     text-decoration: none;
     text-align: center;
     vertical-align: middle;
     position: relative;
-    color: white;
+    color: #2891cf;
     display: block;
     padding: 0px 9px;
     height: 29px;
     line-height: 31px;
-    min-width: 54px;
-    background-color: #013159;
-    background-image: -webkit-linear-gradient(top,#013159,#012949);
-    background-image: -moz-linear-gradient(top,#013159,#012949);
-    background-image: -ms-linear-gradient(top,#013159,#012949);
-    background-image: -o-linear-gradient(top,#013159,#012949);
-    background-image: linear-gradient(top,#013159,#012949);
+    min-width: 60px;
+    background-color: white;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     -webkit-border-radius: 2px;
     -khtml-border-radius: 2px;
@@ -71,62 +247,16 @@ a, a:visited {
     float: right;
 }
 
-
-
 .nopad {
 	padding : 0px;
 }
 
-#query{
-	position: relative;
-}
-
-#uploadinput {
-	padding: 20px 50 0 50px;
-	margin: 0 auto;
-	max-width: 920px;
-}
-
-div#analysis {
-	width :50%;
-	margin-bottom: 20px;
-}
-select#analysis {
-	min-height: 200px;
-}
-
-div#analysis > span{
-	background: rgba(244,67,54,.7)!important;
-	color: white;
-	font-size: 16px;
-	max-width:200px;
-}
-.input-group {
-	width: 100%;
-	padding: 5 0px;
-  margin: 0 auto;
-  float: none;
-}
-
-.input-group-addon {
-    min-width:250px;
-		background: rgba(255,152,0,.7)!important;
-		color: white;
-		font-size: 16px;
-}
 
 
-#map {
-	height: 100%;
-	margin: auto 10% auto 10%;
-	max-height: 80vh !important;
-}
+
+
 /* Optional: Makes the sample page fill the window. */
-html, body {
- height: 100%;
- margin: 0;
- padding: 0;
-}
+
 
 .well{
 	margin-bottom: 0!important;
@@ -158,4 +288,21 @@ html, body {
 
 #results {
 	margin: 50px auto 10px auto;
+}
+
+#color-palette {
+  clear: both;
+}
+
+.color-button {
+  width: 14px;
+  height: 14px;
+  font-size: 0;
+  margin: 2px;
+  float: left;
+  cursor: pointer;
+}
+
+#delete-button {
+  margin-top: 5px;
 }

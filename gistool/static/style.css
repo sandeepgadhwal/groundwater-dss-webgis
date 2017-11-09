@@ -289,3 +289,7 @@ a, a:visited {
 #results {
 	margin: 50px auto 10px auto;
 }
+
+#delete-button {
+  margin-top: 5px;
+}
