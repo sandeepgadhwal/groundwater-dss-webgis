@@ -6,7 +6,7 @@ html, body {
 }
 
 #header {
-    background: url(http://maps.cerdi.com.au/images/VVG-map-header.jpg) no-repeat top center;
+    background: url(/static/water.jpg) no-repeat top center;
     height: 82px;
     position: relative;
     left: 0;
@@ -32,6 +32,13 @@ img.header-left{
 #panel{
 	padding: 10px;
 }
+
+#legend{
+	background: url(/static/legend.png) 50% no-repeat;
+   background-size:100% auto;
+   height:250px;
+}
+
 
 /*sidebar start*/
 /*!
@@ -288,19 +295,6 @@ a, a:visited {
 
 #results {
 	margin: 50px auto 10px auto;
-}
-
-#color-palette {
-  clear: both;
-}
-
-.color-button {
-  width: 14px;
-  height: 14px;
-  font-size: 0;
-  margin: 2px;
-  float: left;
-  cursor: pointer;
 }
 
 #delete-button {

@@ -213,23 +213,26 @@
           <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle"><i class="fa fa-bars fa-6" aria-hidden="true">&nbsp;Analysis</i></a>
         </div>
         <div id="layer-toggle" class="pull-right well" style="display: block;">
-          <div id="color-palette"></div>
-          <div>
-            <button class="btn btn-danger" id="delete-button">Delete Selected Shape</button>
-            <button class="btn btn-primary" id="calculate" onClick="calcar()">calculate area</button>
-            <div id="area"></div>
-          </div>
-          <br>
-					<div id="sharelist">
-					</div>
-          <h5>Layer Menu</h5>
+          <div id="sharelist"></div>
+          <div id="legend"></div>
+          <h5 class="text-center">Layer Menu</h5>
           <label><input id="galditcheck" class="overlaycheck" type="checkbox" value="" checked>&nbsp;GALDIT-U</label></br>
           <input id="galditopacity" class="opacity" type="range"  min="0" max="1" value="1" step="0.1"/>
           <label><input id="drasticcheck" class="overlaycheck" type="checkbox" value="" checked>&nbsp;DRASTIC-U</label>
           <input id="drasticopacity" class="opacity" type="range"  min="0" max="1" value="1" step="0.1"/>
+          <div>
+            <h5 class="text-center">Drawing Tools</h5>
+            <button class="btn btn-danger" id="delete-button">Delete Shape</button>
+            <button class="btn btn-primary" id="calculate" onClick="calcar()">Calculate Area</button>
+            <div id="area" class="info"></div>
+          </div>
+          <div id="tdCursor" class="info"></div>
         </div>
       </div>
     </div>
+  </div>
+  <div id="footer" class="text-center">
+  <span id="copyright">Copyright NCESS 2017</span>
   </div>
   <script>
   $("#menu-toggle").click(function(e) {
@@ -279,7 +282,8 @@
           map = new google.maps.Map(document.getElementById('map'), {
           center: {lat:  22.414024, lng: 80.461715},
           zoom: 5,
-          mapTypeId: 'roadmap'
+          mapTypeId: 'roadmap',
+          draggableCursor: 'default'
         });
           //infoWindow = new google.maps.InfoWindow;
         if (navigator.geolocation) {
@@ -319,7 +323,6 @@
         };
 
         drawingManager = new google.maps.drawing.DrawingManager({
-          drawingMode: google.maps.drawing.OverlayType.POLYGON,
           markerOptions: {
             draggable: true
           },
@@ -352,7 +355,7 @@
             setSelection(newShape);
           });
           var area = google.maps.geometry.spherical.computeArea(newShape.getPath());
-          document.getElementById("area").innerHTML = "Area = " + area + " Sq.m" ;
+          document.getElementById("area").innerHTML = "Area = " + (area/1000000).toFixed(4) + " Sq.Km" ;
           setSelection(newShape);
         }
       });
@@ -362,8 +365,19 @@
       google.maps.event.addListener(drawingManager, 'drawingmode_changed', clearSelection);
       google.maps.event.addListener(map, 'click', clearSelection);
       google.maps.event.addDomListener(document.getElementById('delete-button'), 'click', deleteSelectedShape);
+      google.maps.event.addListener(map, 'mousemove', function (event) {
+              displayCoordinates(event.latLng);
+          });
       }
 
+      function displayCoordinates(pnt) {
+          var coordsLabel = document.getElementById("tdCursor");
+          var lat = pnt.lat();
+          lat = lat.toFixed(4);
+          var lng = pnt.lng();
+          lng = lng.toFixed(4);
+          coordsLabel.innerHTML = "Latitude: " + lat + "  Longitude: " + lng;
+      }
       </script>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCve4liJjacyI50x_HJyMPYaxoGL_e7s2U&libraries=geometry,drawing&callback=initMap">
       </script>
