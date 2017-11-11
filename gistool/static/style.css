@@ -37,11 +37,11 @@ img.header-left{
 	background: url(/static/legend.png) no-repeat;
    background-size:100% auto;
    height:160px;
-   margin:0 20px;
+   margin:10px 20px;
 }
 
 #footer {
-    background: url(/static/water.jpg) no-repeat bottom center;
+    background: url(/static/water.jpg) no-repeat top center;
     max-height: 14px;
     position: relative;
     left: 0;
@@ -152,20 +152,37 @@ body {
 
 a#menu-toggle{
     position: absolute;
-    top: 80px;
+    top: 100px;
     left: .5em;
     z-index: 40;
     font-size: 1.5em !important;
     background: white;
     color: #2891cf;
+    border: 1px solid #2891cf;
+
+}
+
+a#side-toggle{
+    z-index: 40;
+    font-size: 1.5em !important;
+    background: white;
+    color: #2891cf;
+    border: 1px solid #2891cf;
+    margin-bottom: 10px;
+
 }
 
 div#layer-toggle{
     position: absolute;
-    top: 60px;
+    top: 40px;
     right: .5em;
     z-index: 40;
     background: white;
+    border: 1px solid #2891cf;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+}
 }
 /*sidebar end*/
 
@@ -276,13 +293,7 @@ a, a:visited {
 	padding : 0px;
 }
 
-
-
-
-
 /* Optional: Makes the sample page fill the window. */
-
-
 .well{
 	margin-bottom: 0!important;
 	border-radius: 0px;

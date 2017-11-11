@@ -14,25 +14,28 @@ def to_rgb(bandarray):
     bandarray = bandarray * 100
     # Colour the red band
     r_ba = bandarray * 1 #intialize new band
-    r_ba[(r_ba > 0) & (r_ba < 33)] = 11 #first class
-    r_ba[(r_ba > 33) & (r_ba < 50)] = 14 #Second Class
-    r_ba[(r_ba > 50) & (r_ba < 66)] = 245 #third class
-    r_ba[(r_ba > 66) & (r_ba < 83)] = 230 #fourth class
-    r_ba[(r_ba > 83) & (r_ba < 100)] = 194 #fifth class
+    r_ba[(r_ba > 0) & (r_ba < 33)] = 1100 #first class
+    r_ba[(r_ba > 33) & (r_ba < 50)] = 1400 #Second Class
+    r_ba[(r_ba > 50) & (r_ba < 66)] = 24500 #third class
+    r_ba[(r_ba > 66) & (r_ba < 83)] = 23000 #fourth class
+    r_ba[(r_ba > 83) & (r_ba < 100)] = 19400 #fifth class
+    r_ba = np.divide(r_ba, 100)
     # Colour the green band
     g_ba = bandarray * 1
-    g_ba[(g_ba > 0) & (g_ba < 33)] = 44 #first class
-    g_ba[(g_ba > 33) & (g_ba < 50)] = 196 #Second Class
-    g_ba[(g_ba > 50) & (g_ba < 66)] = 215 #third class
-    g_ba[(g_ba > 66) & (g_ba < 83)] = 142 #fourth class
-    g_ba[(g_ba > 83) & (g_ba < 100)] = 82 #fifth class
+    g_ba[(g_ba > 0) & (g_ba < 33)] = 4400 #first class
+    g_ba[(g_ba > 33) & (g_ba < 50)] = 19600 #Second Class
+    g_ba[(g_ba > 50) & (g_ba < 66)] = 21500 #third class
+    g_ba[(g_ba > 66) & (g_ba < 83)] = 14200 #fourth class
+    g_ba[(g_ba > 83) & (g_ba < 100)] = 8200 #fifth class
+    g_ba = np.divide(g_ba, 100)
     # Colour the blue band
     b_ba = bandarray * 1
-    b_ba[(b_ba > 0) & (b_ba < 33)] = 122 #first class
-    b_ba[(b_ba > 33) & (b_ba < 50)] = 65 #Second Class
-    b_ba[(b_ba > 50) & (b_ba < 66)] = 7 #third class
-    b_ba[(b_ba > 66) & (b_ba < 83)] = 28 #fourth class
-    b_ba[(b_ba > 83) & (b_ba < 100)] = 60 #fifth class
+    b_ba[(b_ba > 0) & (b_ba < 33)] = 12200 #first class
+    b_ba[(b_ba > 33) & (b_ba < 50)] = 6500 #Second Class
+    b_ba[(b_ba > 50) & (b_ba < 66)] = 700 #third class
+    b_ba[(b_ba > 66) & (b_ba < 83)] = 2800 #fourth class
+    b_ba[(b_ba > 83) & (b_ba < 100)] = 6000 #fifth class
+    b_ba = np.divide(b_ba, 100)
     #print(maxvalue,minvalue, bandarray, r_ba, g_ba, b_ba)
     return(r_ba, g_ba, b_ba)
 

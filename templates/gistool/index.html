@@ -213,26 +213,31 @@
           <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle"><i class="fa fa-bars fa-6" aria-hidden="true">&nbsp;Analysis</i></a>
         </div>
         <div id="layer-toggle" class="pull-right well" style="display: block;">
-          <div id="sharelist"></div>
-          <div id="legend"></div>
-          <h5 class="text-center">Layer Menu</h5>
-          <label><input id="galditcheck" class="overlaycheck" type="checkbox" value="" checked>&nbsp;GALDIT-U</label></br>
-          <input id="galditopacity" class="opacity" type="range"  min="0" max="1" value="1" step="0.1"/>
-          <label><input id="drasticcheck" class="overlaycheck" type="checkbox" value="" checked>&nbsp;DRASTIC-U</label>
-          <input id="drasticopacity" class="opacity" type="range"  min="0" max="1" value="1" step="0.1"/>
-          <div>
-            <h5 class="text-center">Drawing Tools</h5>
-            <button class="btn btn-danger" id="delete-button">Delete Shape</button>
-            <button class="btn btn-primary" id="calculate" onClick="calcar()">Calculate Area</button>
-            <div id="area" class="info"></div>
+          <div calss="text-center">
+            <a  id="side-toggle" href="#side" class="btn btn-secondary" data-toggle="collapse"><i class="fa fa-bars fa-6" aria-hidden="true">&nbsp;Information</i></a>
           </div>
-          <div id="tdCursor" class="info"></div>
+          <div id="side" class="collapse">
+              <div id="sharelist" class="text-center"></div>
+              <div id="legend"></div>
+              <h5 class="text-center">Layer Menu</h5>
+              <label><input id="galditcheck" class="overlaycheck" type="checkbox" value="" checked>&nbsp;GALDIT-U</label></br>
+              <input id="galditopacity" class="opacity" type="range"  min="0" max="1" value="1" step="0.1"/>
+              <label><input id="drasticcheck" class="overlaycheck" type="checkbox" value="" checked>&nbsp;DRASTIC-U</label>
+              <input id="drasticopacity" class="opacity" type="range"  min="0" max="1" value="1" step="0.1"/>
+              <div>
+                <h5 class="text-center">Drawing Tools</h5>
+                <button class="btn btn-danger" id="delete-button">Delete Shape</button>
+                <button class="btn btn-primary" id="calculate" onClick="calcar()">Calculate Area</button>
+                <div id="area" class="info text-center">Draw Anything to Calculate Area</div>
+              </div>
+              <div id="tdCursor" class="info text-center">Hover Cursor for latlong</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div id="footer" class="text-center">
-  <span id="copyright">Copyright NCESS 2017</span>
+  <span id="copyright">All Rights NCESS © 2017</span>
   </div>
   <script>
   $("#menu-toggle").click(function(e) {
@@ -376,7 +381,7 @@
           lat = lat.toFixed(4);
           var lng = pnt.lng();
           lng = lng.toFixed(4);
-          coordsLabel.innerHTML = "Latitude: " + lat + "  Longitude: " + lng;
+          coordsLabel.innerHTML = "Lat: " + lat + "  Lon: " + lng;
       }
       </script>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCve4liJjacyI50x_HJyMPYaxoGL_e7s2U&libraries=geometry,drawing&callback=initMap">
@@ -562,7 +567,7 @@
       }
 
       //console.log($("#selectanalysis option:selected").val());
-    /*  $(function() {
+      $(function() {
         $('input[class="analysischeck"]').change(function(){
         //console.log($(this).val());
         if ($('input#drasticanalysis').is(":checked")) {
@@ -583,7 +588,7 @@
         }
       });
       });
-*/
+
       $(function(){
         $('input[class="opacity"]').change(function(){
           console.log($('input#drasticopacity').val());
@@ -651,7 +656,7 @@
       var drasticparm = drastic+"";
       var galditparm = galdit+"";
       var fullurl = shareurl+"/?drastic="+drasticparm+"&galdit="+galditparm;
-      var tohtml = '<b><a href="javascript:copytoclipboard(fullurl);"><i class="fa fa-clone" aria-hidden="true"></i>&nbsp;Share Analysis Copy URl</a></b><br/><br/>';
+      var tohtml = '<b><a href="javascript:copytoclipboard(fullurl);"><i class="fa fa-clone" aria-hidden="true"></i>&nbsp;Share Analysis Copy URl</a></b>';
       $("#sharelist").html(tohtml);
       function shareanalysis (x,p){
         if (p == 1){
