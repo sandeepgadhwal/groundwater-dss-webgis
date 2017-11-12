@@ -14,7 +14,7 @@ def to_rgb(bandarray):
     bandarray = bandarray * 100
     # Colour the red band
     r_ba = bandarray * 1 #intialize new band
-    r_ba[(r_ba > 0) & (r_ba < 33)] = 1100 #first class
+    r_ba[(r_ba > 0) & (r_ba < 33)] = 16300 #first class
     r_ba[(r_ba > 33) & (r_ba < 50)] = 1400 #Second Class
     r_ba[(r_ba > 50) & (r_ba < 66)] = 24500 #third class
     r_ba[(r_ba > 66) & (r_ba < 83)] = 23000 #fourth class
@@ -22,7 +22,7 @@ def to_rgb(bandarray):
     r_ba = np.divide(r_ba, 100)
     # Colour the green band
     g_ba = bandarray * 1
-    g_ba[(g_ba > 0) & (g_ba < 33)] = 4400 #first class
+    g_ba[(g_ba > 0) & (g_ba < 33)] = 20400 #first class
     g_ba[(g_ba > 33) & (g_ba < 50)] = 19600 #Second Class
     g_ba[(g_ba > 50) & (g_ba < 66)] = 21500 #third class
     g_ba[(g_ba > 66) & (g_ba < 83)] = 14200 #fourth class
@@ -30,7 +30,7 @@ def to_rgb(bandarray):
     g_ba = np.divide(g_ba, 100)
     # Colour the blue band
     b_ba = bandarray * 1
-    b_ba[(b_ba > 0) & (b_ba < 33)] = 12200 #first class
+    b_ba[(b_ba > 0) & (b_ba < 33)] = 25500 #first class
     b_ba[(b_ba > 33) & (b_ba < 50)] = 6500 #Second Class
     b_ba[(b_ba > 50) & (b_ba < 66)] = 700 #third class
     b_ba[(b_ba > 66) & (b_ba < 83)] = 2800 #fourth class
@@ -75,9 +75,10 @@ def calculatedr(timenow, DW, DF_name, RW, RF_name, AW, AF_name, SW, SF_name, TW,
 
     #trsp_ba = DF_ba*1
     DF_ba[DF_ba < 0] = 0
-    #trsp_ba[trsp_ba < 254] = 1
-    #trsp_ba[trsp_ba > 254] = 0
-    #trsp_ba = trsp_ba*255
+    CLIP_ba = DF_ba * 1
+    CLIP_ba[(CLIP_ba > 0) & (CLIP_ba < 254)] = 1
+    CLIP_ba[CLIP_ba == 255] = 0
+    #print(CLIP_ba)
 
     # get array for each raster file
     if RF_name == 'blank':
@@ -174,6 +175,7 @@ def calculatedr(timenow, DW, DF_name, RW, RF_name, AW, AF_name, SW, SF_name, TW,
             #divisor = divisor-1;
     #CALCULATE ALL VALUES
     CALC_ba = DF_ba * DW + RF_ba * RW + AF_ba * AW + SF_ba * SW + TF_ba * TW + IF_ba * IW + CF_ba*CW #+ UF_ba*UW
+    #CALC_ba = CALC_ba * CLIP_ba
     CALC_ba = np.divide(CALC_ba, divisor)
 
     #CONVERT TO rgb
@@ -221,7 +223,7 @@ def calculatedr(timenow, DW, DF_name, RW, RF_name, AW, AF_name, SW, SF_name, TW,
 
     return (os.path.join(settings.MEDIA_URL, output_ds_name), os.path.join(settings.MEDIA_URL, render_ds_name), os.path.join(settings.MEDIA_URL,png_ds_name), minx, miny, maxx, maxy)
 
-def calculatega(timenow, GW, GF_name, HW, HF_name, GTW, GTF_name, DW, DF_name, IW, IF_name, TW, TF_name, UW, UF_name):
+def calculatega(timenow, GW, GF_name, HW, HF_name, GTW, GTF_name, GDW, GDF_name, IW, IF_name, TW, TF_name, UW, UF_name):
     divisor = 6;
     #read datasets
     GF_ds = gdal.Open(os.path.join(settings.MEDIA_ROOT,GF_name))
@@ -244,9 +246,10 @@ def calculatega(timenow, GW, GF_name, HW, HF_name, GTW, GTF_name, DW, DF_name, I
 
     #trsp_ba = DF_ba*1
     GF_ba[GF_ba < 0] = 0
-    #trsp_ba[trsp_ba < 254] = 1
-    #trsp_ba[trsp_ba > 254] = 0
-    #trsp_ba = trsp_ba*255
+    CLIP_ba = GF_ba * 1
+    CLIP_ba[CLIP_ba == 255] = 0
+    CLIP_ba[CLIP_ba > 0] = 1
+    print(CLIP_ba)
 
     # get array for each raster file
     if HF_name == 'blank':
@@ -276,17 +279,17 @@ def calculatega(timenow, GW, GF_name, HW, HF_name, GTW, GTF_name, DW, DF_name, I
             GTF_ba = GF_ba*0
             divisor = divisor-1;
 
-    if DF_name == 'blank':
-        DF_ba = GF_ba*0
+    if GDF_name == 'blank':
+        GDF_ba = GF_ba*0
         divisor = divisor-1;
     else:
         try:
-            DF_name = project(DF_name, rasterxsize, rasterysize, datatype, projection, geotranDForm)
-            DF_ds = gdal.Open(os.path.join(settings.MEDIA_ROOT, DF_name))
-            DF_ba = BandReadAsArray(DF_ds.GetRasterBand(1))
-            DF_ba[DF_ba < 0] = 0
+            GDF_name = project(GDF_name, rasterxsize, rasterysize, datatype, projection, geotransform)
+            GDF_ds = gdal.Open(os.path.join(settings.MEDIA_ROOT, GDF_name))
+            GDF_ba = BandReadAsArray(GDF_ds.GetRasterBand(1))
+            GDF_ba[GDF_ba < 0] = 0
         except:
-            DF_ba = GF_ba*0
+            GDF_ba = GF_ba*0
             divisor = divisor-1;
 
     if IF_name == 'blank':
@@ -329,9 +332,10 @@ def calculatega(timenow, GW, GF_name, HW, HF_name, GTW, GTF_name, DW, DF_name, I
             UF_ba = GF_ba*0
             #divisor = divisor-1;
     #CALCULATE ALL VALUES
-    CALC_ba = GF_ba * GW + HF_ba * HW + GTF_ba * GTW + DF_ba * DW + IF_ba * IW + TF_ba * TW  #+ UF_ba*UW
+    CALC_ba = GF_ba * GW + HF_ba * HW + GTF_ba * GTW + GDF_ba * GDW + IF_ba * IW + TF_ba * TW  #+ UF_ba*UW
+    CALC_ba = CALC_ba * CLIP_ba
     divisor = divisor * 3
-    CALC_ba = np.divide(CALC_ba, divisor*3)
+    CALC_ba = np.divide(CALC_ba, divisor)
 
     #CONVERT TO rgb
     colour_ba = to_rgb(CALC_ba)
