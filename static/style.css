@@ -30,9 +30,10 @@ img.header-left{
 	height: Calc(100vh - 115px);
 }
 
-div[title="Add a marker"] {
+div[title="Add a marker"],div[title="Draw a circle"] , div[title="Draw a rectangle"] {
   display: none;
 }
+
 #panel{
 	padding: 10px;
 }
