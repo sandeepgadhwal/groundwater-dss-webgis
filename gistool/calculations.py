@@ -7,6 +7,7 @@ import os
 import sys
 
 def to_rgb(bandarray):
+    print(bandarray)
     maxvalue = np.amax(bandarray)
     #minvalue = np.amin(bandarray)
     #print("from RGB",maxvalue,minvalue, bandarray)
@@ -73,12 +74,9 @@ def calculatedr(timenow, DW, DF_name, RW, RF_name, AW, AF_name, SW, SF_name, TW,
     DF_ba = BandReadAsArray(DF_bd)
     #print(DF_ba)
 
-    #trsp_ba = DF_ba*1
-    DF_ba[DF_ba < 0] = 0
     CLIP_ba = DF_ba * 1
-    CLIP_ba[(CLIP_ba > 0) & (CLIP_ba < 254)] = 1
-    CLIP_ba[CLIP_ba == 255] = 0
-    #print(CLIP_ba)
+    CLIP_ba[(CLIP_ba > 0) & (CLIP_ba < 255)] = 1
+    CLIP_ba[CLIP_ba > 254] = 0
 
     # get array for each raster file
     if RF_name == 'blank':
@@ -175,6 +173,7 @@ def calculatedr(timenow, DW, DF_name, RW, RF_name, AW, AF_name, SW, SF_name, TW,
             #divisor = divisor-1;
     #CALCULATE ALL VALUES
     CALC_ba = DF_ba * DW + RF_ba * RW + AF_ba * AW + SF_ba * SW + TF_ba * TW + IF_ba * IW + CF_ba*CW #+ UF_ba*UW
+    CALC_ba = CALC_ba.astype(float)
     #CALC_ba = CALC_ba * CLIP_ba
     CALC_ba = np.divide(CALC_ba, divisor)
 
@@ -245,11 +244,13 @@ def calculatega(timenow, GW, GF_name, HW, HF_name, GTW, GTF_name, GDW, GDF_name,
     #print(DF_ba)
 
     #trsp_ba = DF_ba*1
-    GF_ba[GF_ba < 0] = 0
+    #GF_ba[GF_ba < 0] = 0
+    #print(GF_ba)
     CLIP_ba = GF_ba * 1
-    CLIP_ba[CLIP_ba == 255] = 0
-    CLIP_ba[CLIP_ba > 0] = 1
-    print(CLIP_ba)
+    CLIP_ba[(CLIP_ba > 0) & (CLIP_ba < 255)] = 1
+    CLIP_ba[CLIP_ba > 254] = 0
+    #print (CLIP_ba)
+
 
     # get array for each raster file
     if HF_name == 'blank':
@@ -333,6 +334,7 @@ def calculatega(timenow, GW, GF_name, HW, HF_name, GTW, GTF_name, GDW, GDF_name,
             #divisor = divisor-1;
     #CALCULATE ALL VALUES
     CALC_ba = GF_ba * GW + HF_ba * HW + GTF_ba * GTW + GDF_ba * GDW + IF_ba * IW + TF_ba * TW  #+ UF_ba*UW
+    CALC_ba = CALC_ba.astype(float)
     CALC_ba = CALC_ba * CLIP_ba
     divisor = divisor * 3
     CALC_ba = np.divide(CALC_ba, divisor)

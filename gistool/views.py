@@ -75,10 +75,10 @@ def index(request):
                 for x in indicators:
                     try:
                         globals()[x] = int(request.POST[x])
-                        print(x+" = "+globals()[x])
-                    except:
+                        print(x+" = "+str(globals()[x]))
+                    except Exception as e:
                         globals()[x] = 1
-                        print("NO Wieghtage given for "+x+" Assigned default = 1")
+                        print("NO Wieghtage given for "+x+" Assigned default = 1", e)
 
                 # get files from the form
                 indicatorfiles = ['GF', 'HF', 'GTF', 'GDF', 'IF', 'TF', 'UF']
@@ -93,7 +93,7 @@ def index(request):
                         globals()[xname] = 'blank'
                         print("No file uploaded for "+x+" Will ignore in calculations")
                 #get it processd by gdal
-                responsega = calculatega(timenow, GW, GF_name, HW, HF_name, GTW, GTF_name, DW, DF_name, IW, IF_name, TW, TF_name, UW, UF_name)
+                responsega = calculatega(timenow, GW, GF_name, HW, HF_name, GTW, GTF_name, GDW, GDF_name, IW, IF_name, TW, TF_name, UW, UF_name)
                 outputga = responsega[0]
                 renderedga = responsega[1]
                 pngga = responsega[2]

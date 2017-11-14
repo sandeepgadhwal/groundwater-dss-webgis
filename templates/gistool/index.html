@@ -33,6 +33,12 @@
         <p>In no event will we be liable for any loss or damage including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of this website.</p>
       </div>
     </div>
+    <div id="aboutdiv" class="fade-wrapper">
+      <div class="infooverlay well">
+        <h3>About</h3>
+        <p>This application is an open source tool developed to study ground water vulnerability in coastal Areas.</p>
+      </div>
+    </div>
     <div id="header">
       <div class="col-md-4 header-left ">
         <a href="/"><img class="header-left" src="{% static "Header-left.png" %}"  alt="NCESS LOGO"></a>
@@ -162,10 +168,10 @@
           <div class="input-group">
             <span class="input-group-addon">Distance from Shore (spatial extend of area from shoreline) (m)</span>
             <div class="col-md-3 nopad">
-            <input type="text" name="DW" class="form-control galdit" placeholder="weightage" value="5">
+            <input type="text" name="GDW" class="form-control galdit" placeholder="weightage" value="5">
             </div>
             <div class="col-md-9 nopad">
-            <input type="file" name="DW" class="form-control galdit">
+            <input type="file" name="GDF" class="form-control galdit">
             </div>
           </div>
           <div class="input-group">
@@ -294,16 +300,25 @@
         shape.setEditable(true);
         google.maps.event.addListener(shape.getPath(), 'set_at', calcar);
         google.maps.event.addListener(shape.getPath(), 'insert_at', calcar);
+        //calcar();
       }
 
       function calcar() {
-          var area = google.maps.geometry.spherical.computeArea(selectedShape.getPath());
-          document.getElementById("area").innerHTML = "Area = " + (area/1000000).toFixed(4) + " Sq.Km" ;
-      }
+        console.log(selectedShape.type);
+          if (selectedShape.type == 'polyline'){
+            var length = google.maps.geometry.spherical.computeLength(selectedShape.getPath());
+            document.getElementById("area").innerHTML = "Length = " + (length/1000).toFixed(4) + " Km" ;
+          }
+          if (selectedShape.type == 'polygon'){
+            var area = google.maps.geometry.spherical.computeArea(selectedShape.getPath());
+            document.getElementById("area").innerHTML = "Area = " + (area/1000000).toFixed(4) + " Sq.Km" ;
+          }
+        }
 
       function deleteSelectedShape() {
         if (selectedShape) {
           selectedShape.setMap(null);
+          document.getElementById("area").innerHTML = "Draw Anything to Calculate Area" ;
         }
       }
 
@@ -410,9 +425,8 @@
           google.maps.event.addListener(newShape, 'click', function() {
             setSelection(newShape);
           });
-          var area = google.maps.geometry.spherical.computeArea(newShape.getPath());
-          document.getElementById("area").innerHTML = "Area = " + (area/1000000).toFixed(4) + " Sq.Km" ;
           setSelection(newShape);
+          calcar();
         }
       });
 
