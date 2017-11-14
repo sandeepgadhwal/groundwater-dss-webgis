@@ -24,7 +24,7 @@
       <div class="infooverlay well">
         <h3>Help</h3>
         <p>This is a tool to analyze groundwater vulnerabilities and you can analyze, view, share, download and take screenshots of the resultant analysis.</p>
-      </div>
+        </div>
     </div>
     <div id="disclaimerdiv" class="fade-wrapper">
       <div class="infooverlay well">
@@ -37,6 +37,10 @@
       <div class="infooverlay well">
         <h3>About</h3>
         <p>This application is an open source tool developed to study ground water vulnerability in coastal Areas.</p>
+        <h3>GALDIT model</h3>
+        <p>The GALDIT model developed by Chachadi and Labo-Ferreira (2001) is used for mapping the seawater intrusion vulnerability. This model has used six influencing parameters that are having more sensitivity to seawater intrusion vulnerability under various hydrogeological settings. A numerical ranking system of this model is applied to analyze the GALDIT parameters, which are drawn up into map layers with an attributes of weights and ratings. The empirical algorithm is represented as  〖SWI〗_i={(G_w G_r )+(A_w A_r )+(L_w L_r )+(D_w D_r )+(I_w I_r )+(T_w T_r )}  /∑_(i=1)^6▒W_i . Where, 〖SWI〗_i refers seawater intrusion vulnerability index value; G, A, L, D, I and T refers the parameters such as Groundwater occurrence (or) Aquifer type (G) Aquifer Hydraulic Conductivity (A); Groundwater table level above Mean Sea Level (L); Distance from the Shore (D); Impact of existing seawater intruded zone (I); Aquifer Thickness (T) used in GALDIT model; w is assigned weights to a parameter; r is assigned a rating of feature classes of a parameter.</p>
+        <h3>DRASTIC model</h3>
+        <p>The DRASTIC model developed by EPA-USA (Aller et al. 1987) to evaluate the groundwater vulnerable zone to contamination from point and non-point sources. The seven DRASTIC parameters have been analyzed using the statistical equation of this model to demarcate the vulnerable zones for aquifer contamination. The computation of this model is defined as the rate of the feature classes in a particular layer multiplied by the assigned weight of the layer.  The equation is expressed as follows,  Di= DrDw + RrRw + ArAw + SrSw + TrTw + IrIw + CrCw /∑_(i=1)^6▒D_i . Where Di is vulnerable index; D = Depth to groundwater table; R = Net Recharge; A = Aquifer media; S = Soil media; T = Topography (slope); I = Impacts of vadose zone; C = hydraulic Conductivity. The variable of all parameters such as r being refers the rate of the feature classes in each parameter and w is the weight assigned to the parameters.</p>
       </div>
     </div>
     <div id="header">
@@ -44,6 +48,7 @@
         <a href="/"><img class="header-left" src="{% static "Header-left.png" %}"  alt="NCESS LOGO"></a>
       </div>
   	   <ul id="buttons">
+          <li><a id="about" class="overlaybutton" href="#">About</a></li>
           <li><a id="help" class="overlaybutton" href="#">Help</a></li>
           <li><a id="disclaimer" class="overlaybutton" href="#">Disclaimer</a></li>
       </ul>
