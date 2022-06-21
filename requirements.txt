@@ -5,7 +5,7 @@ django-fontawesome==0.3.1
 django-jquery==3.1.0
 django-sslserver==0.20
 gunicorn==19.7.1
-numpy==1.13.3
+numpy==1.22.0
 psycopg2==2.7.3.2
 pytz==2017.2
 PyYAML==3.12
